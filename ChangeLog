@@ -1,0 +1,13 @@
+(add new changes on top of this file)
+
+2009-10-08 Franz Holzinger  <franz@ttproducts.de>
+	* new method to determine the formerly set encodings of characters: getCharEncoding
+
+2009-01-13 Franz Holzinger  <franz@ttproducts.de>
+	* use correct class name tx_taxajax_response instead of tx_xajax_response
+
+2008-05-15 Franz Holzinger  <franz@fholzinger.com>
+
+	* do not show the TYPO3 reload message
+	* show PHP debug infos in the error window
+	* code copied from xajax extension 0.2.3 into taxajax
