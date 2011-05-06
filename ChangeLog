@@ -1,5 +1,10 @@
 (add new changes on top of this file)
 
+2011-05-06 Franz Holzinger  <franz@ttproducts.de>
+	* link to the new project homepage
+	* use manual from extension doc_template
+	* some modifications for TYPO3 coding guidelines
+
 2009-10-08 Franz Holzinger  <franz@ttproducts.de>
 	* new method to determine the formerly set encodings of characters: getCharEncoding
 

@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice for implementation of xajax as TYPO3 extension
  *
- *  (c) 2008-2009 Elmar Hinz (elmar.hinz@team-red.net)
+ *  (c) 2008-2011 Elmar Hinz (elmar.hinz@team-red.net)
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -21,12 +21,13 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-/*
-   ----------------------------------------------------------------------------
-   | Online documentation for this class is available on the xajax wiki at:   |
-   | http://wiki.xajaxproject.org/Documentation:xajax.inc.php                 |
-   ----------------------------------------------------------------------------
-*/
+/**
+ *   ----------------------------------------------------------------------------
+ *   | Online documentation for this class is available on the xajax wiki at:   |
+ *   | http://www.xajax-project.org/Documentation:xajax.inc.php                 |
+ *   ----------------------------------------------------------------------------
+ *
+ */
 
 /**
  * Define XAJAX_DEFAULT_CHAR_ENCODING that is used by both
@@ -58,6 +59,7 @@ if (!defined ('XAJAX_POST'))
  * sent back to your page from your PHP functions.
  *
  * @package taxajax
+ * @version $Id$
  */
 class tx_taxajax
 {
@@ -156,8 +158,7 @@ class tx_taxajax
 	 * @param string  defaults to XAJAX_DEFAULT_CHAR_ENCODING defined above
 	 * @param boolean defaults to false
 	 */
-	function tx_taxajax($sRequestURI="",$sWrapperPrefix="taxajax_",$sEncoding=XAJAX_DEFAULT_CHAR_ENCODING,$bDebug=false)
-	{
+	function tx_taxajax ($sRequestURI="",$sWrapperPrefix="taxajax_",$sEncoding=XAJAX_DEFAULT_CHAR_ENCODING,$bDebug=false) {
 		$this->aFunctions = array();
 		$this->aObjects = array();
 		$this->aFunctionIncludeFiles = array();
@@ -179,13 +180,12 @@ class tx_taxajax
 
 	/**
 	 * Sets the URI to which requests will be made.
-	 * <i>Usage:</i> <kbd>$xajax->setRequestURI("http://www.xajaxproject.org");</kbd>
+	 * <i>Usage:</i> <kbd>$xajax->setRequestURI("http://www.xajax-project.org");</kbd>
 	 *
 	 * @param string the URI (can be absolute or relative) of the PHP script
 	 *               that will be accessed when an xajax request occurs
 	 */
-	function setRequestURI($sRequestURI)
-	{
+	function setRequestURI ($sRequestURI) {
 		$this->sRequestURI = $sRequestURI;
 	}
 
@@ -196,56 +196,49 @@ class tx_taxajax
 	 * @param string
 	 */
 	//
-	function setWrapperPrefix($sPrefix)
-	{
+	function setWrapperPrefix ($sPrefix) {
 		$this->sWrapperPrefix = $sPrefix;
 	}
 
 	/**
 	 * Enables debug messages for xajax.
 	 * */
-	function debugOn()
-	{
+	function debugOn () {
 		$this->bDebug = true;
 	}
 
 	/**
 	 * Disables debug messages for xajax (default behavior).
 	 */
-	function debugOff()
-	{
+	function debugOff () {
 		$this->bDebug = false;
 	}
 
 	/**
 	 * Enables messages in the browser's status bar for xajax.
 	 */
-	function statusMessagesOn()
-	{
+	function statusMessagesOn () {
 		$this->bStatusMessages = true;
 	}
 
 	/**
 	 * Disables messages in the browser's status bar for xajax (default behavior).
 	 */
-	function statusMessagesOff()
-	{
+	function statusMessagesOff () {
 		$this->bStatusMessages = false;
 	}
 
 	/**
 	 * Enables the wait cursor to be displayed in the browser (default behavior).
 	 */
-	function waitCursorOn()
-	{
+	function waitCursorOn () {
 		$this->bWaitCursor = true;
 	}
 
 	/**
 	 * Disables the wait cursor to be displayed in the browser.
 	 */
-	function waitCursorOff()
-	{
+	function waitCursorOff () {
 		$this->bWaitCursor = false;
 	}
 
@@ -253,8 +246,7 @@ class tx_taxajax
 	 * Enables xajax to exit immediately after processing a request and
 	 * sending the response back to the browser (default behavior).
 	 */
-	function exitAllowedOn()
-	{
+	function exitAllowedOn () {
 		$this->bExitAllowed = true;
 	}
 
@@ -262,8 +254,7 @@ class tx_taxajax
 	 * Disables xajax's default behavior of exiting immediately after
 	 * processing a request and sending the response back to the browser.
 	 */
-	function exitAllowedOff()
-	{
+	function exitAllowedOff () {
 		$this->bExitAllowed = false;
 	}
 
@@ -272,16 +263,14 @@ class tx_taxajax
 	 * during a request are trapped and pushed to the browser in the form of
 	 * a Javascript alert.
 	 */
-	function errorHandlerOn()
-	{
+	function errorHandlerOn () {
 		$this->bErrorHandler = true;
 	}
 
 	/**
 	 * Turns off xajax's error handling system (default behavior).
 	 */
-	function errorHandlerOff()
-	{
+	function errorHandlerOff () {
 		$this->bErrorHandler = false;
 	}
 
@@ -291,8 +280,7 @@ class tx_taxajax
 	 * this method, or you pass in "", then no log file will be written to.
 	 * <i>Usage:</i> <kbd>$xajax->setLogFile("/xajax_logs/errors.log");</kbd>
 	 */
-	function setLogFile($sFilename)
-	{
+	function setLogFile ($sFilename) {
 		$this->sLogFile = $sFilename;
 	}
 
@@ -300,15 +288,13 @@ class tx_taxajax
 	 * Causes xajax to clean out all output buffers before outputting a
 	 * response (default behavior).
 	 */
-	function cleanBufferOn()
-	{
+	function cleanBufferOn () {
 		$this->bCleanBuffer = true;
 	}
 	/**
 	 * Turns off xajax's output buffer cleaning.
 	 */
-	function cleanBufferOff()
-	{
+	function cleanBufferOff () {
 		$this->bCleanBuffer = false;
 	}
 
@@ -322,8 +308,7 @@ class tx_taxajax
 	 *
 	 * @param string the encoding type to use (utf-8, iso-8859-1, etc.)
 	 */
-	function setCharEncoding($sEncoding)
-	{
+	function setCharEncoding ($sEncoding) {
 		$this->sEncoding = $sEncoding;
 	}
 
@@ -331,8 +316,7 @@ class tx_taxajax
 	 * Gets the previously set character encoding for the HTTP output
      * @see: setCharEncoding
 	 */
-	function getCharEncoding()
-	{
+	function getCharEncoding () {
 		return $this->sEncoding;
 	}
 
@@ -341,16 +325,14 @@ class tx_taxajax
 	 * encoding if possible. Either the iconv or mb_string extension must be
 	 * present for optimal functionality.
 	 */
-	function decodeUTF8InputOn()
-	{
+	function decodeUTF8InputOn () {
 		$this->bDecodeUTF8Input = true;
 	}
 
 	/**
 	 * Turns off decoding the input request args from UTF-8 (default behavior).
 	 */
-	function decodeUTF8InputOff()
-	{
+	function decodeUTF8InputOff () {
 		$this->bDecodeUTF8Input = false;
 	}
 
@@ -358,8 +340,7 @@ class tx_taxajax
 	 * Tells the response object to convert special characters to HTML entities
 	 * automatically (only works if the mb_string extension is available).
 	 */
-	function outputEntitiesOn()
-	{
+	function outputEntitiesOn () {
 		$this->bOutputEntities = true;
 	}
 
@@ -367,8 +348,7 @@ class tx_taxajax
 	 * Tells the response object to output special characters intact. (default
 	 * behavior).
 	 */
-	function outputEntitiesOff()
-	{
+	function outputEntitiesOff () {
 		$this->bOutputEntities = false;
 	}
 
@@ -391,8 +371,7 @@ class tx_taxajax
 	 * @param mixed  request type (XAJAX_GET/XAJAX_POST) that should be used
 	 *               for this function.  Defaults to XAJAX_POST.
 	 */
-	function registerFunction($mFunction,$sRequestType=XAJAX_POST)
-	{
+	function registerFunction ($mFunction, $sRequestType=XAJAX_POST) {
 		if (is_array($mFunction)) {
 			$this->aFunctions[$mFunction[0]] = 1;
 			$this->aFunctionRequestTypes[$mFunction[0]] = $sRequestType;
@@ -418,8 +397,7 @@ class tx_taxajax
 	 * @param mixed  the RequestType (XAJAX_GET/XAJAX_POST) that should be used
 	 *		          for this function. Defaults to XAJAX_POST.
 	 */
-	function registerExternalFunction($mFunction,$sIncludeFile,$sRequestType=XAJAX_POST)
-	{
+	function registerExternalFunction ($mFunction, $sIncludeFile, $sRequestType=XAJAX_POST) {
 		$this->registerFunction($mFunction, $sRequestType);
 
 		if (is_array($mFunction)) {
@@ -444,8 +422,7 @@ class tx_taxajax
 	 *               ({@link taxajax::registerFunction() see registerFunction} for
 	 *               more info on object callback arrays)
 	 */
-	function registerCatchAllFunction($mFunction)
-	{
+	function registerCatchAllFunction ($mFunction) {
 		if (is_array($mFunction)) {
 			$this->sCatchAllFunction = $mFunction[0];
 			$this->aObjects[$mFunction[0]] = array_slice($mFunction, 1);
@@ -470,8 +447,7 @@ class tx_taxajax
 	 *               ({@link taxajax::registerFunction() see registerFunction} for
 	 *               more info on object callback arrays)
 	 */
-	function registerPreFunction($mFunction)
-	{
+	function registerPreFunction ($mFunction) {
 		if (is_array($mFunction)) {
 			$this->sPreFunction = $mFunction[0];
 			$this->aObjects[$mFunction[0]] = array_slice($mFunction, 1);
@@ -488,8 +464,7 @@ class tx_taxajax
 	 *
 	 * @return boolean
 	 */
-	function canProcessRequests()
-	{
+	function canProcessRequests () {
 		if ($this->getRequestMode() != -1) return true;
 		return false;
 	}
@@ -500,8 +475,7 @@ class tx_taxajax
 	 *
 	 * @return mixed
 	 */
-	function getRequestMode()
-	{
+	function getRequestMode () {
 		if (!empty($_GET["xajax"]))
 			return XAJAX_GET;
 
@@ -519,8 +493,7 @@ class tx_taxajax
 	 * page then this function should be called before any headers or HTML has
 	 * been sent.
 	 */
-	function processRequests()
-	{
+	function processRequests () {
 
 		$requestMode = -1;
 		$sFunctionName = "";
@@ -723,8 +696,7 @@ class tx_taxajax
 	 *               engine located within the xajax installation folder.
 	 *               Defaults to xajax_js/xajax.js.
 	 */
-	function printJavascript($sJsURI="", $sJsFile=NULL)
-	{
+	function printJavascript ($sJsURI="", $sJsFile=NULL) {
 		print $this->getJavascript($sJsURI, $sJsFile);
 	}
 
@@ -752,8 +724,7 @@ class tx_taxajax
 	 *               Defaults to xajax_js/xajax.js.
 	 * @return string
 	 */
-	function getJavascript($sJsURI="", $sJsFile=NULL)
-	{
+	function getJavascript ($sJsURI="", $sJsFile=NULL) {
 		$html = $this->getJavascriptConfig();
 		$html .= $this->getJavascriptInclude($sJsURI, $sJsFile);
 
@@ -766,8 +737,7 @@ class tx_taxajax
 	 *
 	 * @return string
 	 */
-	function getJavascriptConfig()
-	{
+	function getJavascriptConfig () {
 		$html  = "\t<script type=\"text/javascript\">\n";
 		$html .= "/*<![CDATA[*/\n";
 		$html .= "var xajaxRequestUri=\"".$this->sRequestURI."\";\n";
@@ -804,8 +774,7 @@ class tx_taxajax
 	 *               Defaults to xajax_js/xajax.js.
 	 * @return string
 	 */
-	function getJavascriptInclude($sJsURI="", $sJsFile=NULL)
-	{
+	function getJavascriptInclude ($sJsURI="", $sJsFile=NULL) {
 		if ($sJsFile == NULL) $sJsFile = "xajax_js/xajax.js";
 
 		if ($sJsURI != "" && substr($sJsURI, -1) != "/") $sJsURI .= "/";
@@ -825,8 +794,7 @@ class tx_taxajax
 	 * @param string an optional argument containing the full server file path
 	 *               of xajax.js.
 	 */
-	function autoCompressJavascript($sJsFullFilename=NULL)
-	{
+	function autoCompressJavascript ($sJsFullFilename=NULL) {
 		$sJsFile = "xajax_js/xajax.js";
 
 		if ($sJsFullFilename) {
@@ -847,6 +815,7 @@ class tx_taxajax
 			$javaScript = implode('', file($srcFile));
 			$compressedScript = xajaxCompressJavascript($javaScript);
 			$fH = @fopen($realJsFile, "w");
+
 			if (!$fH) {
 				trigger_error("The xajax compressed javascript file could not be written in the <b>" . dirname($realJsFile) . "</b> folder. Error ", E_USER_ERROR);
 			}
@@ -863,7 +832,7 @@ class tx_taxajax
 	 * @access private
 	 * @return string
 	 */
-	function _detectURI() {
+	function _detectURI () {
 		$aURL = array();
 
 		// Try to get the request URL
@@ -948,8 +917,7 @@ class tx_taxajax
 	 * @access private
 	 * @return boolean
 	 */
-	function _isObjectCallback($sFunction)
-	{
+	function _isObjectCallback ($sFunction) {
 		if (array_key_exists($sFunction, $this->aObjects)) return true;
 		return false;
 	}
@@ -962,8 +930,7 @@ class tx_taxajax
 	 * @access private
 	 * @return boolean
 	 */
-	function _isFunctionCallable($sFunction)
-	{
+	function _isFunctionCallable ($sFunction) {
 		if ($this->_isObjectCallback($sFunction)) {
 			if (is_object($this->aObjects[$sFunction][0])) {
 				return method_exists($this->aObjects[$sFunction][0], $this->aObjects[$sFunction][1]);
@@ -986,8 +953,7 @@ class tx_taxajax
 	 * @access private
 	 * @return mixed the output of the called function or method
 	 */
-	function _callFunction($sFunction, $aArgs)
-	{
+	function _callFunction ($sFunction, $aArgs) {
 		if ($this->_isObjectCallback($sFunction)) {
 			$mReturn = call_user_func_array($this->aObjects[$sFunction], $aArgs);
 		}
@@ -1005,8 +971,7 @@ class tx_taxajax
 	 * @access private
 	 * @return string
 	 */
-	function _wrap($sFunction,$sRequestType=XAJAX_POST)
-	{
+	function _wrap ($sFunction,$sRequestType=XAJAX_POST) {
 		$js = "function ".$this->sWrapperPrefix."$sFunction(){return xajax.call(\"$sFunction\", arguments, ".$sRequestType.");}\n";
 		return $js;
 	}
@@ -1021,8 +986,7 @@ class tx_taxajax
 	 * @access private
 	 * @return array
 	 */
-	function _xmlToArray($rootTag, $sXml)
-	{
+	function _xmlToArray ($rootTag, $sXml) {
 		$aArray = array();
 		$sXml = str_replace("<$rootTag>","<$rootTag>|~|",$sXml);
 		$sXml = str_replace("</$rootTag>","</$rootTag>|~|",$sXml);
@@ -1051,8 +1015,7 @@ class tx_taxajax
 	 * @access private
 	 * @return array
 	 */
-	function _parseObjXml($rootTag)
-	{
+	function _parseObjXml ($rootTag) {
 		$aArray = array();
 
 		if ($rootTag == "xjxobj")
@@ -1153,8 +1116,7 @@ class tx_taxajax
 	 * @access private
 	 * @return string converted data
 	 */
-	function _decodeUTF8Data($sData)
-	{
+	function _decodeUTF8Data ($sData) {
 		$sValue = $sData;
 		if ($this->bDecodeUTF8Input)
 		{
@@ -1205,8 +1167,7 @@ class tx_taxajax
  * This function is registered with PHP's set_error_handler() function if
  * the xajax error handling system is turned on.
  */
-function xajaxErrorHandler($errno, $errstr, $errfile, $errline)
-{
+function xajaxErrorHandler ($errno, $errstr, $errfile, $errline) {
 	$errorReporting = error_reporting();
 	if (($errno & $errorReporting) == 0) return;
 

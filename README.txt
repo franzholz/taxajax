@@ -3,26 +3,26 @@ TYPO3 extension based on the  PHP Class Library Version 0.2.4 (stable release)
 ==============================================================================
 
  ------------------------------------------------------
- | While xajax itself comes under the 
+ | While xajax itself comes under the
  | GNU LESSER GENERAL PUBLIC LICENSE (LGPL)
- | the TYPO3 extension version comes under the 
+ | the TYPO3 extension version comes under the
  | GNU General Public License (GPL)
  | The license change is proposed by LGPL Section 3.3
  | It is irreversible for any copy or work derived from this.
- | 
+ |
  | GNU General Public License can be found at
  | http://www.gnu.org/copyleft/gpl.html.
- | 
+ |
  | GNU LESSER General Public License can be found at
  | http://www.gnu.org/copyleft/lgpl.html.
- | 
+ |
  | The original XAJAX library can be found at
- | http://www.xajaxproject.org/
+ | http://www.xajax-project.org/
  |
  | Elmar Hinz (elmar.hinz@team-red.net)
  ------------------------------------------------------
 
-For documentation visit http://wiki.xajaxproject.org/ 
+For documentation visit http://wiki.xajax-project.org/
 and read the TYPO3 .sxw document file as soon as it is available.
 
 
@@ -35,7 +35,7 @@ and read the TYPO3 .sxw document file as soon as it is available.
 
  ------------------------------------------------------
  | Release Notes:                                     |
- | http://wiki.xajaxproject.org/0.2.4_Release_Notes   |
+ | http://wiki.xajax-project.org/0.2.4_Release_Notes  |
  |                                                    |
  | Lead Developers:                                   |
  | Jared White (jared@intuitivefuture.com)            |
@@ -71,16 +71,16 @@ version of xajax.
 2. For More Information
 
 The official xajax Web site is located at:
-http://www.xajaxproject.org
+http://www.xajax-project.org
 
 Visit the xajax Forums at:
-http://community.xajaxproject.org
+http://community.xajax-project.org
 to keep track of the latest news and participate in the community
 discussion.
 
 There is also a wiki with documentation, tips & tricks, and other
 information located at:
-http://wiki.xajaxproject.org
+http://wiki.xajax-project.org
 
 3. Installation
 

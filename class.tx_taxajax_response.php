@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice for implementation of xajax as TYPO3 extension
  *
- *  (c) 2006-2009 Elmar Hinz (elmar.hinz@team-red.net)
+ *  (c) 2006-2011 Elmar Hinz (elmar.hinz@team-red.net)
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -22,12 +22,13 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-/*
-   ----------------------------------------------------------------------------
-   | Online documentation for this class is available on the xajax wiki at:   |
-   | http://wiki.xajaxproject.org/Documentation:xajaxResponse.inc.php         |
-   ----------------------------------------------------------------------------
-*/
+/**
+ *   ----------------------------------------------------------------------------
+ *   | Online documentation for this class is available on the xajax wiki at:   |
+ *   | http://wiki.xajax-project.org/Documentation:xajaxResponse.inc.php         |
+ *   ----------------------------------------------------------------------------
+ *
+ */
 
 /**
  * The xajaxResponse class is used to create responses to be sent back to your
@@ -52,6 +53,8 @@
  * the right id names in your response.
  *
  * @package taxajax
+ * @version $Id$
+ *
  */
 class tx_taxajax_response
 {
@@ -87,8 +90,7 @@ class tx_taxajax_response
 	 *                converted to HTML entities
 	 *
 	 */
-	function tx_taxajax_response ($sEncoding=XAJAX_DEFAULT_CHAR_ENCODING, $bOutputEntities=false)
-	{
+	function tx_taxajax_response ($sEncoding=XAJAX_DEFAULT_CHAR_ENCODING, $bOutputEntities=false) {
 		$this->setCharEncoding($sEncoding);
 		$this->bOutputEntities = $bOutputEntities;
 	}
@@ -102,8 +104,7 @@ class tx_taxajax_response
 	 *
 	 * @param string
 	 */
-	function setCharEncoding ($sEncoding)
-	{
+	function setCharEncoding ($sEncoding) {
 		$this->sEncoding = $sEncoding;
 	}
 
@@ -111,8 +112,7 @@ class tx_taxajax_response
 	 * Tells the response object to convert special characters to HTML entities
 	 * automatically (only works if the mb_string extension is available).
 	 */
-	function outputEntitiesOn ()
-	{
+	function outputEntitiesOn () {
 		$this->bOutputEntities = true;
 	}
 
@@ -120,8 +120,7 @@ class tx_taxajax_response
 	 * Tells the response object to output special characters intact. (default
 	 * behavior)
 	 */
-	function outputEntitiesOff ()
-	{
+	function outputEntitiesOff () {
 		$this->bOutputEntities = false;
 	}
 
@@ -134,8 +133,7 @@ class tx_taxajax_response
 	 *                Cancel in the browsers's confirm dialog
 	 * @param string  the message to show in the browser's confirm dialog
 	 */
-	function addConfirmCommands ($iCmdNumber, $sMessage)
-	{
+	function addConfirmCommands ($iCmdNumber, $sMessage) {
 		$this->xml .= $this->_cmdXML(array("n"=>"cc","t"=>$iCmdNumber),$sMessage);
 	}
 
@@ -149,9 +147,8 @@ class tx_taxajax_response
 	 *               "value", etc.)
 	 * @param string the data you want to set the attribute to
 	 */
-	function addAssign ($sTarget,$sAttribute,$sData)
-	{
-		$this->xml .= $this->_cmdXML(array("n"=>"as","t"=>$sTarget,"p"=>$sAttribute),$sData);
+	function addAssign ($sTarget, $sAttribute, $sData) {
+		$this->xml .= $this->_cmdXML(array("n"=>"as", "t"=>$sTarget, "p"=>$sAttribute), $sData);
 	}
 
 	/**
@@ -164,9 +161,8 @@ class tx_taxajax_response
 	 *               "value", etc.)
 	 * @param string the data you want to append to the end of the attribute
 	 */
-	function addAppend ($sTarget,$sAttribute,$sData)
-	{
-		$this->xml .= $this->_cmdXML(array("n"=>"ap","t"=>$sTarget,"p"=>$sAttribute),$sData);
+	function addAppend ($sTarget, $sAttribute, $sData) {
+		$this->xml .= $this->_cmdXML(array("n"=>"ap", "t"=>$sTarget, "p"=>$sAttribute), $sData);
 	}
 
 	/**
@@ -180,8 +176,7 @@ class tx_taxajax_response
 	 * @param string the data you want to prepend to the beginning of the
 	 *               attribute
 	 */
-	function addPrepend ($sTarget,$sAttribute,$sData)
-	{
+	function addPrepend ($sTarget,$sAttribute,$sData) {
 		$this->xml .= $this->_cmdXML(array("n"=>"pp","t"=>$sTarget,"p"=>$sAttribute),$sData);
 	}
 
@@ -197,8 +192,7 @@ class tx_taxajax_response
 	 * @param string the string to replace the search string when found in the
 	 *               attribute
 	 */
-	function addReplace ($sTarget,$sAttribute,$sSearch,$sData)
-	{
+	function addReplace ($sTarget,$sAttribute,$sSearch,$sData) {
 		$sDta = "<s><![CDATA[$sSearch]]></s><r><![CDATA[$sData]]></r>";
 		$this->xml .= $this->_cmdXML(array("n"=>"rp","t"=>$sTarget,"p"=>$sAttribute),$sDta);
 	}
@@ -212,8 +206,7 @@ class tx_taxajax_response
 	 * @param string the part of the element you wish to clear ("innerHTML",
 	 *               "value", etc.)
 	 */
-	function addClear ($sTarget,$sAttribute)
-	{
+	function addClear ($sTarget,$sAttribute) {
 		$this->addAssign($sTarget,$sAttribute,'');
 	}
 
@@ -224,20 +217,18 @@ class tx_taxajax_response
 	 *
 	 * @param string the text to be displayed in the Javascript alert box
 	 */
-	function addAlert ($sMsg)
-	{
+	function addAlert ($sMsg) {
 		$this->xml .= $this->_cmdXML(array("n"=>"al"),$sMsg);
 	}
 
 	/**
 	 * Uses the addScript() method to add a Javascript redirect to another URL.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addRedirect("http://www.xajaxproject.org");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addRedirect("http://www.xajax-project.org");</kbd>
 	 *
 	 * @param string the URL to redirect the client browser to
 	 */
-	function addRedirect ($sURL)
-	{
+	function addRedirect ($sURL) {
 		//we need to parse the query part so that the values are rawurlencode()'ed
 		//can't just use parse_url() cos we could be dealing with a relative URL which
 		//  parse_url() can't deal with.
@@ -267,8 +258,7 @@ class tx_taxajax_response
 	 *
 	 * @param string contains Javascript code to be executed
 	 */
-	function addScript ($sJS)
-	{
+	function addScript ($sJS) {
 		$this->xml .= $this->_cmdXML(array("n"=>"js"),$sJS);
 	}
 
@@ -294,8 +284,7 @@ class tx_taxajax_response
 	 *
 	 * @param string contains the id of an HTML element to be removed
 	 */
-	function addRemove ($sTarget)
-	{
+	function addRemove ($sTarget) {
 		$this->xml .= $this->_cmdXML(array("n"=>"rm","t"=>$sTarget),'');
 	}
 
@@ -310,8 +299,7 @@ class tx_taxajax_response
 	 * @param string the id to be assigned to the new element
 	 * @param string deprecated, use the addCreateInput() method instead
 	 */
-	function addCreate ($sParent, $sTag, $sId, $sType="")
-	{
+	function addCreate ($sParent, $sTag, $sId, $sType="") {
 		if ($sType)
 		{
 			trigger_error("The \$sType parameter of addCreate has been deprecated.  Use the addCreateInput() method instead.", E_USER_WARNING);
@@ -330,8 +318,7 @@ class tx_taxajax_response
 	 * @param string the tag to be added
 	 * @param string the id to be assigned to the new element
 	 */
-	function addInsert ($sBefore, $sTag, $sId)
-	{
+	function addInsert ($sBefore, $sTag, $sId) {
 		$this->xml .= $this->_cmdXML(array("n"=>"ie","t"=>$sBefore,"p"=>$sId),$sTag);
 	}
 
@@ -345,8 +332,7 @@ class tx_taxajax_response
 	 * @param string the tag to be added
 	 * @param string the id to be assigned to the new element
 	 */
-	function addInsertAfter ($sAfter, $sTag, $sId)
-	{
+	function addInsertAfter ($sAfter, $sTag, $sId) {
 		$this->xml .= $this->_cmdXML(array("n"=>"ia","t"=>$sAfter,"p"=>$sId),$sTag);
 	}
 
@@ -363,8 +349,7 @@ class tx_taxajax_response
 	 *               name when it is submitted
 	 * @param string the id to be assigned to the new input
 	 */
-	function addCreateInput ($sParent, $sType, $sName, $sId)
-	{
+	function addCreateInput ($sParent, $sType, $sName, $sId) {
 		$this->xml .= $this->_cmdXML(array("n"=>"ci","t"=>$sParent,"p"=>$sId,"c"=>$sType),$sName);
 	}
 
@@ -381,8 +366,7 @@ class tx_taxajax_response
 	 *               name when it is submitted
 	 * @param string the id to be assigned to the new input
 	 */
-	function addInsertInput ($sBefore, $sType, $sName, $sId)
-	{
+	function addInsertInput ($sBefore, $sType, $sName, $sId) {
 		$this->xml .= $this->_cmdXML(array("n"=>"ii","t"=>$sBefore,"p"=>$sId,"c"=>$sType),$sName);
 	}
 
@@ -399,8 +383,7 @@ class tx_taxajax_response
 	 *               name when it is submitted
 	 * @param string the id to be assigned to the new input
 	 */
-	function addInsertInputAfter ($sAfter, $sType, $sName, $sId)
-	{
+	function addInsertInputAfter ($sAfter, $sType, $sName, $sId) {
 		$this->xml .= $this->_cmdXML(array("n"=>"iia","t"=>$sAfter,"p"=>$sId,"c"=>$sType),$sName);
 	}
 
@@ -413,8 +396,7 @@ class tx_taxajax_response
 	 * @param string the event you wish to set ("onclick", "onmouseover", etc.)
 	 * @param string the Javascript string you want the event to invoke
 	 */
-	function addEvent ($sTarget,$sEvent,$sScript)
-	{
+	function addEvent ($sTarget, $sEvent, $sScript) {
 		$this->xml .= $this->_cmdXML(array("n"=>"ev","t"=>$sTarget,"p"=>$sEvent),$sScript);
 	}
 
@@ -428,8 +410,7 @@ class tx_taxajax_response
 	 * @param string the name of a Javascript function that will handle the
 	 *               event. Multiple handlers can be added for the same event
 	 */
-	function addHandler ($sTarget,$sEvent,$sHandler)
-	{
+	function addHandler ($sTarget, $sEvent, $sHandler) {
 		$this->xml .= $this->_cmdXML(array("n"=>"ah","t"=>$sTarget,"p"=>$sEvent),$sHandler);
 	}
 
@@ -444,8 +425,7 @@ class tx_taxajax_response
 	 * @param string the name of a Javascript handler function that you want to
 	 *               remove
 	 */
-	function addRemoveHandler ($sTarget,$sEvent,$sHandler)
-	{
+	function addRemoveHandler ($sTarget, $sEvent, $sHandler) {
 		$this->xml .= $this->_cmdXML(array("n"=>"rh","t"=>$sTarget,"p"=>$sEvent),$sHandler);
 	}
 
@@ -456,8 +436,7 @@ class tx_taxajax_response
 	 *
 	 * @param string URL of the Javascript file to include
 	 */
-	function addIncludeScript ($sFileName)
-	{
+	function addIncludeScript ($sFileName) {
 		$this->xml .= $this->_cmdXML(array("n"=>"in"),$sFileName);
 	}
 
@@ -471,8 +450,7 @@ class tx_taxajax_response
 	 *
 	 * @return string response XML data
 	 */
-	function getXML ()
-	{
+	function getXML () {
 		$sXML = "<?xml version=\"1.0\"";
 		if ($this->sEncoding && strlen(trim($this->sEncoding)) > 0)
 			$sXML .= " encoding=\"".$this->sEncoding."\"";
@@ -493,8 +471,7 @@ class tx_taxajax_response
 	 * @param string the response XML (returned from a getXML() method) to add
 	 *               to the end of this response object
 	 */
-	function loadXML ($mXML)
-	{
+	function loadXML ($mXML) {
 		if (is_a($mXML, "xajaxResponse")) {
 			$mXML = $mXML->getXML();
 		}
@@ -514,8 +491,7 @@ class tx_taxajax_response
 	 * @param string data
 	 * @return string XML command
 	 */
-	function _cmdXML ($aAttributes, $sData)
-	{
+	function _cmdXML ($aAttributes, $sData) {
 		if ($this->bOutputEntities) {
 			if (function_exists('mb_convert_encoding')) {
 				$sData = call_user_func_array('mb_convert_encoding', array(&$sData, 'HTML-ENTITIES', $this->sEncoding));
