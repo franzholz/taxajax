@@ -1,5 +1,8 @@
 (add new changes on top of this file)
 
+2012-09-15 Franz Holzinger  <franz@ttproducts.de>
+	* add the autoloader file ext_autoload.php
+
 2011-05-06 Franz Holzinger  <franz@ttproducts.de>
 	* link to the new project homepage
 	* use manual from extension doc_template
