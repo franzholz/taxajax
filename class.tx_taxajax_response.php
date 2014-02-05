@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice for implementation of xajax as TYPO3 extension
  *
- *  (c) 2006-2011 Elmar Hinz (elmar.hinz@team-red.net)
+ *  (c) 2006-2014 Elmar Hinz (elmar.hinz@team-red.net)
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is

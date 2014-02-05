@@ -1,5 +1,9 @@
 (add new changes on top of this file)
 
+2014-02-05 Franz Holzinger  <franz@ttproducts.de>
+	* allow TYPO3 4.5
+	* adapt for TYPO3 6.2
+
 2012-09-15 Franz Holzinger  <franz@ttproducts.de>
 	* add the autoloader file ext_autoload.php
 

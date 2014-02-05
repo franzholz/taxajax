@@ -15,7 +15,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'description' => 'Enhancement to the xajax extension with TYPO3 specific code. See ECT list.',
 	'category' => 'misc',
 	'shy' => 0,
-	'version' => '0.2.11',
+	'version' => '0.2.12',
 	'dependencies' => '',
 	'conflicts' => 'xajax',
 	'priority' => '',
@@ -34,7 +34,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'CGLcompliance_note' => '',
 	'constraints' => array(
 		'depends' => array(
-			'typo3' => '4.5.0-6.0.99',
+			'typo3' => '4.5.0-6.2.99',
 		),
 		'conflicts' => array(
 			'xajax' => '',

@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice for implementation of xajax as TYPO3 extension
  *
- *  (c) 2008-2011 Elmar Hinz (elmar.hinz@team-red.net)
+ *  (c) 2008-2014 Elmar Hinz (elmar.hinz@team-red.net)
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -38,7 +38,7 @@ if (!defined ('XAJAX_DEFAULT_CHAR_ENCODING'))
 	define ('XAJAX_DEFAULT_CHAR_ENCODING', 'utf-8' );
 }
 
-require_once(dirname(__FILE__)."/class.tx_taxajax_response.php");
+// require_once(dirname(__FILE__)."/class.tx_taxajax_response.php");
 
 /**
  * Communication Method Defines
@@ -158,7 +158,7 @@ class tx_taxajax
 	 * @param string  defaults to XAJAX_DEFAULT_CHAR_ENCODING defined above
 	 * @param boolean defaults to false
 	 */
-	function tx_taxajax ($sRequestURI="",$sWrapperPrefix="taxajax_",$sEncoding=XAJAX_DEFAULT_CHAR_ENCODING,$bDebug=false) {
+	function tx_taxajax ($sRequestURI = '',$sWrapperPrefix = 'taxajax_', $sEncoding = XAJAX_DEFAULT_CHAR_ENCODING, $bDebug = false) {
 		$this->aFunctions = array();
 		$this->aObjects = array();
 		$this->aFunctionIncludeFiles = array();
@@ -517,7 +517,7 @@ class tx_taxajax
 		}
 		else
 		{
-			header ("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+			header ("Expires: Mon, 8 Oct 2012 05:00:00 GMT");
 			header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 			header ("Cache-Control: no-cache, must-revalidate");
 			header ("Pragma: no-cache");
@@ -811,7 +811,7 @@ class tx_taxajax
 			if (!file_exists($srcFile)) {
 				trigger_error("The xajax uncompressed Javascript file could not be found in the <b>" . dirname($realJsFile) . "</b> folder. Error ", E_USER_ERROR);
 			}
-			require(dirname(__FILE__)."/xajaxCompress.php");
+// 			require(dirname(__FILE__)."/xajaxCompress.php");
 			$javaScript = implode('', file($srcFile));
 			$compressedScript = xajaxCompressJavascript($javaScript);
 			$fH = @fopen($realJsFile, "w");
