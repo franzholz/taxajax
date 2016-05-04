@@ -1,4 +1,6 @@
 (add new changes on top of this file)
+2016-05-02 Franz Holzinger  <franz@ttproducts.de>
+	* allow TYPO3 7.7
 
 2014-02-05 Franz Holzinger  <franz@ttproducts.de>
 	* allow TYPO3 4.5

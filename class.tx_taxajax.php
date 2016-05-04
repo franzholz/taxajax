@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice for implementation of xajax as TYPO3 extension
  *
- *  (c) 2008-2014 Elmar Hinz (elmar.hinz@team-red.net)
+ *  (c) 2016 Elmar Hinz (elmar.hinz@team-red.net)
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -59,7 +59,6 @@ if (!defined ('XAJAX_POST'))
  * sent back to your page from your PHP functions.
  *
  * @package taxajax
- * @version $Id$
  */
 class tx_taxajax
 {
@@ -371,7 +370,7 @@ class tx_taxajax
 	 * @param mixed  request type (XAJAX_GET/XAJAX_POST) that should be used
 	 *               for this function.  Defaults to XAJAX_POST.
 	 */
-	function registerFunction ($mFunction, $sRequestType=XAJAX_POST) {
+	function registerFunction ($mFunction, $sRequestType = XAJAX_POST) {
 		if (is_array($mFunction)) {
 			$this->aFunctions[$mFunction[0]] = 1;
 			$this->aFunctionRequestTypes[$mFunction[0]] = $sRequestType;
@@ -397,7 +396,7 @@ class tx_taxajax
 	 * @param mixed  the RequestType (XAJAX_GET/XAJAX_POST) that should be used
 	 *		          for this function. Defaults to XAJAX_POST.
 	 */
-	function registerExternalFunction ($mFunction, $sIncludeFile, $sRequestType=XAJAX_POST) {
+	function registerExternalFunction ($mFunction, $sIncludeFile, $sRequestType = XAJAX_POST) {
 		$this->registerFunction($mFunction, $sRequestType);
 
 		if (is_array($mFunction)) {
@@ -696,7 +695,7 @@ class tx_taxajax
 	 *               engine located within the xajax installation folder.
 	 *               Defaults to xajax_js/xajax.js.
 	 */
-	function printJavascript ($sJsURI="", $sJsFile=NULL) {
+	function printJavascript ($sJsURI = "", $sJsFile = NULL) {
 		print $this->getJavascript($sJsURI, $sJsFile);
 	}
 
@@ -774,7 +773,7 @@ class tx_taxajax
 	 *               Defaults to xajax_js/xajax.js.
 	 * @return string
 	 */
-	function getJavascriptInclude ($sJsURI="", $sJsFile=NULL) {
+	function getJavascriptInclude ($sJsURI = '', $sJsFile = NULL) {
 		if ($sJsFile == NULL) $sJsFile = "xajax_js/xajax.js";
 
 		if ($sJsURI != "" && substr($sJsURI, -1) != "/") $sJsURI .= "/";
@@ -794,7 +793,7 @@ class tx_taxajax
 	 * @param string an optional argument containing the full server file path
 	 *               of xajax.js.
 	 */
-	function autoCompressJavascript ($sJsFullFilename=NULL) {
+	function autoCompressJavascript ($sJsFullFilename = NULL) {
 		$sJsFile = "xajax_js/xajax.js";
 
 		if ($sJsFullFilename) {
@@ -971,7 +970,7 @@ class tx_taxajax
 	 * @access private
 	 * @return string
 	 */
-	function _wrap ($sFunction,$sRequestType=XAJAX_POST) {
+	function _wrap ($sFunction, $sRequestType = XAJAX_POST) {
 		$js = "function ".$this->sWrapperPrefix."$sFunction(){return xajax.call(\"$sFunction\", arguments, ".$sRequestType.");}\n";
 		return $js;
 	}
@@ -1199,4 +1198,3 @@ if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/taxajax
   include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/taxajax/class.tx_taxajax.php']);
 }
 
-?>
