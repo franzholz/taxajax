@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice for implementation of xajax as TYPO3 extension
  *
- *  (c) 2006-2014 Elmar Hinz (elmar.hinz@team-red.net)
+ *  (c) 2006-2016 Elmar Hinz (elmar.hinz@team-red.net)
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -53,7 +53,7 @@
  * the right id names in your response.
  *
  * @package taxajax
- * @version $Id$
+ * @version $Id: class.tx_taxajax_response.php 83647 2014-02-05 08:11:13Z franzholz $
  *
  */
 class tx_taxajax_response
@@ -64,16 +64,16 @@ class tx_taxajax_response
 	/**
 	 * @var string internal XML storage
 	 */
-	var $xml;
+	public $xml;
 	/**
 	 * @var string the encoding type to use
 	 */
-	var $sEncoding;
+	public $sEncoding;
 	/**
 	 * @var boolean if special characters in the XML should be converted to
 	 *              entities
 	 */
-	var $bOutputEntities;
+	public $bOutputEntities;
 
 	/**#@-*/
 
@@ -90,7 +90,7 @@ class tx_taxajax_response
 	 *                converted to HTML entities
 	 *
 	 */
-	function tx_taxajax_response ($sEncoding=XAJAX_DEFAULT_CHAR_ENCODING, $bOutputEntities=false) {
+	public function tx_taxajax_response ($sEncoding = XAJAX_DEFAULT_CHAR_ENCODING, $bOutputEntities = false) {
 		$this->setCharEncoding($sEncoding);
 		$this->bOutputEntities = $bOutputEntities;
 	}
@@ -104,7 +104,7 @@ class tx_taxajax_response
 	 *
 	 * @param string
 	 */
-	function setCharEncoding ($sEncoding) {
+	public function setCharEncoding ($sEncoding) {
 		$this->sEncoding = $sEncoding;
 	}
 
@@ -112,7 +112,7 @@ class tx_taxajax_response
 	 * Tells the response object to convert special characters to HTML entities
 	 * automatically (only works if the mb_string extension is available).
 	 */
-	function outputEntitiesOn () {
+	public function outputEntitiesOn () {
 		$this->bOutputEntities = true;
 	}
 
@@ -120,55 +120,55 @@ class tx_taxajax_response
 	 * Tells the response object to output special characters intact. (default
 	 * behavior)
 	 */
-	function outputEntitiesOff () {
+	public function outputEntitiesOff () {
 		$this->bOutputEntities = false;
 	}
 
 	/**
 	 * Adds a confirm commands command message to the XML response.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addConfirmCommands(1, "Do you want to preview the new data?");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addConfirmCommands(1, 'Do you want to preview the new data?');</kbd>
 	 *
 	 * @param integer the number of commands to skip if the user presses
 	 *                Cancel in the browsers's confirm dialog
 	 * @param string  the message to show in the browser's confirm dialog
 	 */
-	function addConfirmCommands ($iCmdNumber, $sMessage) {
-		$this->xml .= $this->_cmdXML(array("n"=>"cc","t"=>$iCmdNumber),$sMessage);
+	public function addConfirmCommands ($iCmdNumber, $sMessage) {
+		$this->xml .= $this->_cmdXML(array('n' => 'cc', 't' => $iCmdNumber), $sMessage);
 	}
 
 	/**
 	 * Adds an assign command message to the XML response.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addAssign("contentDiv", "innerHTML", "Some Text");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addAssign('contentDiv', 'innerHTML', 'Some Text');</kbd>
 	 *
 	 * @param string contains the id of an HTML element
 	 * @param string the part of the element you wish to modify ("innerHTML",
 	 *               "value", etc.)
 	 * @param string the data you want to set the attribute to
 	 */
-	function addAssign ($sTarget, $sAttribute, $sData) {
-		$this->xml .= $this->_cmdXML(array("n"=>"as", "t"=>$sTarget, "p"=>$sAttribute), $sData);
+	public function addAssign ($sTarget, $sAttribute, $sData) {
+		$this->xml .= $this->_cmdXML(array('n' => 'as', 't' => $sTarget, 'p' => $sAttribute), $sData);
 	}
 
 	/**
 	 * Adds an append command message to the XML response.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addAppend("contentDiv", "innerHTML", "Some New Text");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addAppend('contentDiv', 'innerHTML', 'Some New Text');</kbd>
 	 *
 	 * @param string contains the id of an HTML element
 	 * @param string the part of the element you wish to modify ("innerHTML",
 	 *               "value", etc.)
 	 * @param string the data you want to append to the end of the attribute
 	 */
-	function addAppend ($sTarget, $sAttribute, $sData) {
-		$this->xml .= $this->_cmdXML(array("n"=>"ap", "t"=>$sTarget, "p"=>$sAttribute), $sData);
+	public function addAppend ($sTarget, $sAttribute, $sData) {
+		$this->xml .= $this->_cmdXML(array('n' => 'ap', 't' => $sTarget, 'p' => $sAttribute), $sData);
 	}
 
 	/**
 	 * Adds an prepend command message to the XML response.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addPrepend("contentDiv", "innerHTML", "Some Starting Text");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addPrepend('contentDiv', 'innerHTML', 'Some Starting Text');</kbd>
 	 *
 	 * @param string contains the id of an HTML element
 	 * @param string the part of the element you wish to modify ("innerHTML",
@@ -176,14 +176,14 @@ class tx_taxajax_response
 	 * @param string the data you want to prepend to the beginning of the
 	 *               attribute
 	 */
-	function addPrepend ($sTarget,$sAttribute,$sData) {
-		$this->xml .= $this->_cmdXML(array("n"=>"pp","t"=>$sTarget,"p"=>$sAttribute),$sData);
+	public function addPrepend ($sTarget,$sAttribute,$sData) {
+		$this->xml .= $this->_cmdXML(array('n' => 'pp','t' => $sTarget, 'p' => $sAttribute), $sData);
 	}
 
 	/**
 	 * Adds a replace command message to the XML response.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addReplace("contentDiv", "innerHTML", "text", "<b>text</b>");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addReplace('contentDiv', 'innerHTML', 'text', '<b>text</b>');</kbd>
 	 *
 	 * @param string contains the id of an HTML element
 	 * @param string the part of the element you wish to modify ("innerHTML",
@@ -192,43 +192,43 @@ class tx_taxajax_response
 	 * @param string the string to replace the search string when found in the
 	 *               attribute
 	 */
-	function addReplace ($sTarget,$sAttribute,$sSearch,$sData) {
-		$sDta = "<s><![CDATA[$sSearch]]></s><r><![CDATA[$sData]]></r>";
-		$this->xml .= $this->_cmdXML(array("n"=>"rp","t"=>$sTarget,"p"=>$sAttribute),$sDta);
+	public function addReplace ($sTarget, $sAttribute, $sSearch, $sData) {
+		$sDta = '<s><![CDATA[' . $sSearch . ']]></s><r><![CDATA[' . $sData . ']]></r>';
+		$this->xml .= $this->_cmdXML(array('n' => 'rp', 't' => $sTarget, 'p' => $sAttribute), $sDta);
 	}
 
 	/**
 	 * Adds a clear command message to the XML response.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addClear("contentDiv", "innerHTML");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addClear('contentDiv', 'innerHTML');</kbd>
 	 *
 	 * @param string contains the id of an HTML element
-	 * @param string the part of the element you wish to clear ("innerHTML",
-	 *               "value", etc.)
+	 * @param string the part of the element you wish to clear ('innerHTML',
+	 *               'value', etc.)
 	 */
-	function addClear ($sTarget,$sAttribute) {
-		$this->addAssign($sTarget,$sAttribute,'');
+	public function addClear ($sTarget,$sAttribute) {
+		$this->addAssign($sTarget, $sAttribute, '');
 	}
 
 	/**
 	 * Adds an alert command message to the XML response.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addAlert("This is important information");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addAlert('This is important information');</kbd>
 	 *
 	 * @param string the text to be displayed in the Javascript alert box
 	 */
-	function addAlert ($sMsg) {
-		$this->xml .= $this->_cmdXML(array("n"=>"al"),$sMsg);
+	public function addAlert ($sMsg) {
+		$this->xml .= $this->_cmdXML(array('n' => 'al'), $sMsg);
 	}
 
 	/**
 	 * Uses the addScript() method to add a Javascript redirect to another URL.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addRedirect("http://www.xajax-project.org");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addRedirect('http://www.xajax-project.org');</kbd>
 	 *
 	 * @param string the URL to redirect the client browser to
 	 */
-	function addRedirect ($sURL) {
+	public function addRedirect ($sURL) {
 		//we need to parse the query part so that the values are rawurlencode()'ed
 		//can't just use parse_url() cos we could be dealing with a relative URL which
 		//  parse_url() can't deal with.
@@ -241,57 +241,57 @@ class tx_taxajax_response
 				$queryEnd = strlen($sURL);
 			$queryPart = substr($sURL, $queryStart, $queryEnd-$queryStart);
 			parse_str($queryPart, $queryParts);
-			$newQueryPart = "";
+			$newQueryPart = '';
 			foreach($queryParts as $key => $value)
 			{
-				$newQueryPart .= rawurlencode($key).'='.rawurlencode($value).ini_get('arg_separator.output');
+				$newQueryPart .= rawurlencode($key) . '=' . rawurlencode($value) . ini_get('arg_separator.output');
 			}
 			$sURL = str_replace($queryPart, $newQueryPart, $sURL);
 		}
-		$this->addScript('window.location = "'.$sURL.'";');
+		$this->addScript('window.location = "' . $sURL . '";');
 	}
 
 	/**
 	 * Adds a Javascript command message to the XML response.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addScript("var x = prompt('get some text');");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addScript('var x = prompt("get some text");');</kbd>
 	 *
 	 * @param string contains Javascript code to be executed
 	 */
-	function addScript ($sJS) {
-		$this->xml .= $this->_cmdXML(array("n"=>"js"),$sJS);
+	public function addScript ($sJS) {
+		$this->xml .= $this->_cmdXML(array('n' => 'js'), $sJS);
 	}
 
 	/**
 	 * Adds a Javascript function call command message to the XML response.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addScriptCall("myJSFunction", "arg 1", "arg 2", 12345);</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addScriptCall('myJSFunction', 'arg 1', 'arg 2', 12345);</kbd>
 	 *
 	 * @param string $sFunc the name of a Javascript function
 	 * @param mixed $args,... optional arguments to pass to the Javascript function
 	 */
-	function addScriptCall () {
+	public function addScriptCall () {
 		$arguments = func_get_args();
 		$sFunc = array_shift($arguments);
 		$sData = $this->_buildObjXml($arguments);
-		$this->xml .= $this->_cmdXML(array("n"=>"jc","t"=>$sFunc),$sData);
+		$this->xml .= $this->_cmdXML(array('n' => 'jc', 't' => $sFunc), $sData);
 	}
 
 	/**
 	 * Adds a remove element command message to the XML response.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addRemove("Div2");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addRemove('Div2');</kbd>
 	 *
 	 * @param string contains the id of an HTML element to be removed
 	 */
-	function addRemove ($sTarget) {
-		$this->xml .= $this->_cmdXML(array("n"=>"rm","t"=>$sTarget),'');
+	public function addRemove ($sTarget) {
+		$this->xml .= $this->_cmdXML(array('n' => 'rm', 't' => $sTarget), '');
 	}
 
 	/**
 	 * Adds a create element command message to the XML response.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addCreate("parentDiv", "h3", "myid");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addCreate('parentDiv', 'h3', 'myid');</kbd>
 	 *
 	 * @param string contains the id of an HTML element to to which the new
 	 *               element will be appended.
@@ -299,47 +299,46 @@ class tx_taxajax_response
 	 * @param string the id to be assigned to the new element
 	 * @param string deprecated, use the addCreateInput() method instead
 	 */
-	function addCreate ($sParent, $sTag, $sId, $sType="") {
-		if ($sType)
-		{
-			trigger_error("The \$sType parameter of addCreate has been deprecated.  Use the addCreateInput() method instead.", E_USER_WARNING);
+	public function addCreate ($sParent, $sTag, $sId, $sType = '') {
+		if ($sType) {
+			trigger_error('The ' . $sType . ' parameter of addCreate has been deprecated.  Use the addCreateInput() method instead.', E_USER_WARNING);
 			return;
 		}
-		$this->xml .= $this->_cmdXML(array("n"=>"ce","t"=>$sParent,"p"=>$sId),$sTag);
+		$this->xml .= $this->_cmdXML(array('n' => 'ce', 't' => $sParent, 'p' => $sId), $sTag);
 	}
 
 	/**
 	 * Adds a insert element command message to the XML response.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addInsert("childDiv", "h3", "myid");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addInsert('childDiv', 'h3', 'myid');</kbd>
 	 *
 	 * @param string contains the id of the child before which the new element
 	 *               will be inserted
 	 * @param string the tag to be added
 	 * @param string the id to be assigned to the new element
 	 */
-	function addInsert ($sBefore, $sTag, $sId) {
-		$this->xml .= $this->_cmdXML(array("n"=>"ie","t"=>$sBefore,"p"=>$sId),$sTag);
+	public function addInsert ($sBefore, $sTag, $sId) {
+		$this->xml .= $this->_cmdXML(array('n' => 'ie', 't' => $sBefore, 'p' => $sId), $sTag);
 	}
 
 	/**
 	 * Adds a insert element command message to the XML response.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addInsertAfter("childDiv", "h3", "myid");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addInsertAfter('childDiv', 'h3', 'myid');</kbd>
 	 *
 	 * @param string contains the id of the child after which the new element
 	 *               will be inserted
 	 * @param string the tag to be added
 	 * @param string the id to be assigned to the new element
 	 */
-	function addInsertAfter ($sAfter, $sTag, $sId) {
-		$this->xml .= $this->_cmdXML(array("n"=>"ia","t"=>$sAfter,"p"=>$sId),$sTag);
+	public function addInsertAfter ($sAfter, $sTag, $sId) {
+		$this->xml .= $this->_cmdXML(array('n' => 'ia', 't' => $sAfter, 'p' => $sId), $sTag);
 	}
 
 	/**
 	 * Adds a create input command message to the XML response.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addCreateInput("form1", "text", "username", "input1");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addCreateInput('form1', 'text', 'username', 'input1');</kbd>
 	 *
 	 * @param string contains the id of an HTML element to which the new input
 	 *               will be appended
@@ -349,14 +348,14 @@ class tx_taxajax_response
 	 *               name when it is submitted
 	 * @param string the id to be assigned to the new input
 	 */
-	function addCreateInput ($sParent, $sType, $sName, $sId) {
-		$this->xml .= $this->_cmdXML(array("n"=>"ci","t"=>$sParent,"p"=>$sId,"c"=>$sType),$sName);
+	public function addCreateInput ($sParent, $sType, $sName, $sId) {
+		$this->xml .= $this->_cmdXML(array('n' => 'ci', 't' => $sParent, 'p' => $sId, 'c' => $sType), $sName);
 	}
 
 	/**
 	 * Adds an insert input command message to the XML response.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addInsertInput("input5", "text", "username", "input1");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addInsertInput('input5', 'text', 'username', 'input1');</kbd>
 	 *
 	 * @param string contains the id of the child before which the new element
 	 *               will be inserted
@@ -366,14 +365,14 @@ class tx_taxajax_response
 	 *               name when it is submitted
 	 * @param string the id to be assigned to the new input
 	 */
-	function addInsertInput ($sBefore, $sType, $sName, $sId) {
-		$this->xml .= $this->_cmdXML(array("n"=>"ii","t"=>$sBefore,"p"=>$sId,"c"=>$sType),$sName);
+	public function addInsertInput ($sBefore, $sType, $sName, $sId) {
+		$this->xml .= $this->_cmdXML(array('n' => 'ii', 't' => $sBefore, 'p' => $sId, 'c' => $sType), $sName);
 	}
 
 	/**
 	 * Adds an insert input command message to the XML response.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addInsertInputAfter("input7", "text", "email", "input2");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addInsertInputAfter('input7', 'text', 'email', 'input2');</kbd>
 	 *
 	 * @param string contains the id of the child after which the new element
 	 *               will be inserted
@@ -383,61 +382,61 @@ class tx_taxajax_response
 	 *               name when it is submitted
 	 * @param string the id to be assigned to the new input
 	 */
-	function addInsertInputAfter ($sAfter, $sType, $sName, $sId) {
-		$this->xml .= $this->_cmdXML(array("n"=>"iia","t"=>$sAfter,"p"=>$sId,"c"=>$sType),$sName);
+	public function addInsertInputAfter ($sAfter, $sType, $sName, $sId) {
+		$this->xml .= $this->_cmdXML(array('n' => 'iia', 't' => $sAfter, 'p' => $sId, 'c' => $sType), $sName);
 	}
 
 	/**
 	 * Adds an event command message to the XML response.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addEvent("contentDiv", "onclick", "alert(\'Hello World\');");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addEvent('contentDiv', 'onclick', 'alert(\\'Hello World¸\\');');</kbd>
 	 *
 	 * @param string contains the id of an HTML element
-	 * @param string the event you wish to set ("onclick", "onmouseover", etc.)
+	 * @param string the event you wish to set ('onclick', 'onmouseover', etc.)
 	 * @param string the Javascript string you want the event to invoke
 	 */
-	function addEvent ($sTarget, $sEvent, $sScript) {
-		$this->xml .= $this->_cmdXML(array("n"=>"ev","t"=>$sTarget,"p"=>$sEvent),$sScript);
+	public function addEvent ($sTarget, $sEvent, $sScript) {
+		$this->xml .= $this->_cmdXML(array('n' => 'ev', 't' => $sTarget, 'p' => $sEvent), $sScript);
 	}
 
 	/**
 	 * Adds a handler command message to the XML response.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addHandler("contentDiv", "onclick", "content_click");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addHandler('contentDiv', 'onclick', 'content_click');</kbd>
 	 *
 	 * @param string contains the id of an HTML element
-	 * @param string the event you wish to set ("onclick", "onmouseover", etc.)
+	 * @param string the event you wish to set ('onclick', 'onmouseover', etc.)
 	 * @param string the name of a Javascript function that will handle the
 	 *               event. Multiple handlers can be added for the same event
 	 */
-	function addHandler ($sTarget, $sEvent, $sHandler) {
-		$this->xml .= $this->_cmdXML(array("n"=>"ah","t"=>$sTarget,"p"=>$sEvent),$sHandler);
+	public function addHandler ($sTarget, $sEvent, $sHandler) {
+		$this->xml .= $this->_cmdXML(array('n' => 'ah', 't' => $sTarget, 'p' => $sEvent), $sHandler);
 	}
 
 	/**
 	 * Adds a remove handler command message to the XML response.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addRemoveHandler("contentDiv", "onclick", "content_click");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addRemoveHandler('contentDiv', 'onclick', 'content_click');</kbd>
 	 *
 	 * @param string contains the id of an HTML element
-	 * @param string the event you wish to remove ("onclick", "onmouseover",
+	 * @param string the event you wish to remove ('onclick', 'onmouseover',
 	 *               etc.)
 	 * @param string the name of a Javascript handler function that you want to
 	 *               remove
 	 */
-	function addRemoveHandler ($sTarget, $sEvent, $sHandler) {
-		$this->xml .= $this->_cmdXML(array("n"=>"rh","t"=>$sTarget,"p"=>$sEvent),$sHandler);
+	public function addRemoveHandler ($sTarget, $sEvent, $sHandler) {
+		$this->xml .= $this->_cmdXML(array('n' => 'rh', 't' => $sTarget, 'p' => $sEvent), $sHandler);
 	}
 
 	/**
 	 * Adds an include script command message to the XML response.
 	 *
-	 * <i>Usage:</i> <kbd>$objResponse->addIncludeScript("functions.js");</kbd>
+	 * <i>Usage:</i> <kbd>$objResponse->addIncludeScript('functions.js');</kbd>
 	 *
 	 * @param string URL of the Javascript file to include
 	 */
-	function addIncludeScript ($sFileName) {
-		$this->xml .= $this->_cmdXML(array("n"=>"in"),$sFileName);
+	public function addIncludeScript ($sFileName) {
+		$this->xml .= $this->_cmdXML(array('n' => 'in'), $sFileName);
 	}
 
 	/**
@@ -450,11 +449,11 @@ class tx_taxajax_response
 	 *
 	 * @return string response XML data
 	 */
-	function getXML () {
-		$sXML = "<?xml version=\"1.0\"";
+	public function getXML () {
+		$sXML = '<?xml version="1.0"';
 		if ($this->sEncoding && strlen(trim($this->sEncoding)) > 0)
-			$sXML .= " encoding=\"".$this->sEncoding."\"";
-		$sXML .= " ?"."><xjx>" . $this->xml . "</xjx>";
+			$sXML .= ' encoding="' . $this->sEncoding . '"';
+		$sXML .= ' ?'.'><xjx>' . $this->xml . '</xjx>';
 
 		return $sXML;
 	}
@@ -471,14 +470,14 @@ class tx_taxajax_response
 	 * @param string the response XML (returned from a getXML() method) to add
 	 *               to the end of this response object
 	 */
-	function loadXML ($mXML) {
-		if (is_a($mXML, "xajaxResponse")) {
+	public function loadXML ($mXML) {
+		if (is_a($mXML, 'xajaxResponse')) {
 			$mXML = $mXML->getXML();
 		}
-		$sNewXML = "";
-		$iStartPos = strpos($mXML, "<xjx>") + 5;
+		$sNewXML = '';
+		$iStartPos = strpos($mXML, '<xjx>') + 5;
 		$sNewXML = substr($mXML, $iStartPos);
-		$iEndPos = strpos($sNewXML, "</xjx>");
+		$iEndPos = strpos($sNewXML, '</xjx>');
 		$sNewXML = substr($sNewXML, 0, $iEndPos);
 		$this->xml .= $sNewXML;
 	}
@@ -491,24 +490,24 @@ class tx_taxajax_response
 	 * @param string data
 	 * @return string XML command
 	 */
-	function _cmdXML ($aAttributes, $sData) {
+	public function _cmdXML ($aAttributes, $sData) {
 		if ($this->bOutputEntities) {
 			if (function_exists('mb_convert_encoding')) {
 				$sData = call_user_func_array('mb_convert_encoding', array(&$sData, 'HTML-ENTITIES', $this->sEncoding));
 			}
 			else {
-				trigger_error("The xajax XML response output could not be converted to HTML entities because the mb_convert_encoding function is not available", E_USER_NOTICE);
+				trigger_error('The xajax XML response output could not be converted to HTML entities because the mb_convert_encoding function is not available', E_USER_NOTICE);
 			}
 		}
-		$xml = "<cmd";
+		$xml = '<cmd';
 		foreach($aAttributes as $sAttribute => $sValue)
-			$xml .= " $sAttribute=\"$sValue\"";
-		if ($sData !== null && !stristr($sData,'<![CDATA['))
-			$xml .= "><![CDATA[$sData]]></cmd>";
+			$xml .= ' ' . $sAttribute . '="' . $sValue . '"';
+		if ($sData !== null && !stristr($sData, '<![CDATA['))
+			$xml .= '><![CDATA[' . $sData . ']]></cmd>';
 		else if ($sData !== null)
-			$xml .= ">$sData</cmd>";
+			$xml .= '>' . $sData . '</cmd>';
 		else
-			$xml .= "></cmd>";
+			$xml .= '></cmd>';
 
 		return $xml;
 	}
@@ -522,20 +521,20 @@ class tx_taxajax_response
 	 * @param mixed data structure to serialize to XML
 	 * @return string serialized XML
 	 */
-	function _buildObjXml ($var) {
-		if (gettype($var) == "object") $var = get_object_vars($var);
+	public function _buildObjXml ($var) {
+		if (gettype($var) == 'object') $var = get_object_vars($var);
 		if (!is_array($var)) {
-			return "<![CDATA[$var]]>";
+			return '<![CDATA[' . $var . ']]>';
 		}
 		else {
-			$data = "<xjxobj>";
+			$data = '<xjxobj>';
 			foreach ($var as $key => $value) {
-				$data .= "<e>";
-				$data .= "<k>" . htmlspecialchars($key) . "</k>";
-				$data .= "<v>" . $this->_buildObjXml($value) . "</v>";
-				$data .= "</e>";
+				$data .= '<e>';
+				$data .= '<k>' . htmlspecialchars($key) . '</k>';
+				$data .= '<v>' . $this->_buildObjXml($value) . '</v>';
+				$data .= '</e>';
 			}
-			$data .= "</xjxobj>";
+			$data .= '</xjxobj>';
 			return $data;
 		}
 	}
@@ -545,4 +544,3 @@ if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['
   include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/taxajax/class.tx_taxajax_response.php']);
 }
 
-?>

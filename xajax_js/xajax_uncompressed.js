@@ -1,9 +1,8 @@
 /* xajax Javascript library :: version 0.2.4 */
-/* $Id$ */
 
 Array.prototype.containsValue = function(valueToCheck)
 {
-	for (var i=0;i<this.length;i++) {
+	for (var i = 0; i < this.length; i++) {
 		if (this[i] == valueToCheck) return true;
 	}
 	return false;
@@ -13,11 +12,11 @@ function Xajax()
 {
 	this.DebugMessage = function(text)
 	{
-		if (text.length > 1000) text = text.substr(0,1000)+"...\n[long response]\n...";
+		if (text.length > 1000) text = text.substr(0, 1000) + "...\n[long response]\n...";
 		try {
 			if (this.debugWindow == undefined || this.debugWindow.closed == true) {
 				this.debugWindow = window.open('about:blank', 'xajax-debug', 'width=800,height=600,scrollbars=1,resizable,status');
-				this.debugWindow.document.write('<html><head><title>Xajax debug output</title></head><body><h2>Xajax debug output</h2><div id="debugTag"></div></body></html>');
+				this.debugWindow.document.write('<html><head><title>Taxajax debug output</title></head><body><h2>Taxajax debug output</h2><div id="debugTag"></div></body></html>');
 			}
 			text = text.replace(/&/g, "&amp;")
 			text = text.replace(/</g, "&lt;")
@@ -25,13 +24,13 @@ function Xajax()
 			debugTag = this.debugWindow.document.getElementById('debugTag');
 			debugTag.innerHTML = ('<b>'+(new Date()).toString()+'</b>: ' + text + '<hr/>') + debugTag.innerHTML;
 		} catch (e) {
-			alert("Xajax Debug:\n " + text);
+			alert("Taxajax Debug:\n " + text);
 		}
 	};
 
 	this.workId = 'xajaxWork'+ new Date().getTime();
 	this.depth = 0;
-	this.responseErrorsForAlert = ["400","401","402","403","404","500","501","502","503"];
+	this.responseErrorsForAlert = ["400", "401", "402", "403", "404", "500", "501", "502", "503"];
 
 	//Get the XMLHttpRequest Object
 	this.getRequestObject = function()
@@ -40,8 +39,7 @@ function Xajax()
 		var req = null;
 		if (typeof XMLHttpRequest != "undefined")
 			req = new XMLHttpRequest();
-		if (!req && typeof ActiveXObject != "undefined")
-		{
+		if (!req && typeof ActiveXObject != "undefined") {
 			try
 			{
 				req=new ActiveXObject("Msxml2.XMLHTTP");
@@ -402,31 +400,53 @@ function Xajax()
 	this.doneLoadingFunction = function(){};
 	var loadingTimeout;
 
+	this.hasParseError = function(xmldom)
+	{
+		var errors;
+		var result = '';
+
+		try {
+			if (typeof DOMParser != "undefined") {
+				errors = xmldom.getElementsByTagName('parsererror');
+				if (errors.length > 0) {
+					throw new Error('XML parsing error: ' + errors[0].textContent);
+				}
+			} else if (typeof ActiveXObject != 'undefined') {
+				if (xmldom.parseError != 0) {
+					throw new Error('XML parsing error: ' + xmldom.parseError.reason);
+				}
+			}
+		} catch (ex) {
+			result = ex;
+		}
+		return result;
+	}
+
+
+
 	// Sends a XMLHttpRequest to call the specified PHP function on the server
 	// * sRequestType is optional -- defaults to POST
 	this.call = function(sFunction, aArgs, sRequestType)
 	{
-		var i,r,postData;
+		var i,r,postData,parseError;
 		if (document.body && xajaxWaitCursor)
 			document.body.style.cursor = 'wait';
 		if (xajaxStatusMessages == true) window.status = 'Sending Request...';
 		clearTimeout(loadingTimeout);
-		loadingTimeout = setTimeout("xajax.loadingFunction();",400);
+		loadingTimeout = setTimeout("xajax.loadingFunction();", 400);
 		if (xajaxDebug) this.DebugMessage("Starting xajax...");
 		if (sRequestType == null) {
 		   var xajaxRequestType = xajaxDefinedPost;
-		}
-		else {
+		} else {
 			var xajaxRequestType = sRequestType;
 		}
 		var uri = xajaxRequestUri;
 		var value;
-		switch(xajaxRequestType)
-		{
+		switch(xajaxRequestType) {
 			case xajaxDefinedGet:{
 				var uriGet = uri.indexOf("?")==-1?"?xajax="+encodeURIComponent(sFunction):"&xajax="+encodeURIComponent(sFunction);
 				if (aArgs) {
-					for (i = 0; i<aArgs.length; i++)
+					for (i = 0; i < aArgs.length; i++)
 					{
 						value = aArgs[i];
 						if (typeof(value)=="object")
@@ -456,7 +476,7 @@ function Xajax()
 		}
 		r = this.getRequestObject();
 		if (!r) return false;
-		r.open(xajaxRequestType==xajaxDefinedGet?"GET":"POST", uri, true);
+		r.open(xajaxRequestType == xajaxDefinedGet ? "GET" : "POST", uri, true);
 		if (xajaxRequestType == xajaxDefinedPost)
 		{
 			try
@@ -475,14 +495,22 @@ function Xajax()
 			if (r.readyState != 4)
 				return;
 
-			if (r.status==200)
-			{
-				if (xajaxDebug) xajax.DebugMessage("Received:\n" + r.responseText);
-				if (r.responseXML && r.responseXML.documentElement)
+			if (r.status == 200) {
+				if (xajaxDebug) {
+					xajax.DebugMessage("Received:\n" + r.responseText);
+				}
+				if (
+					r.responseXML &&
+					r.responseXML.documentElement &&
+					(parseError = xajax.hasParseError(r.responseXML)) == ''
+				) {
 					xajax.processResponse(r.responseXML);
-				else {
+				} else {
 					var errorString = "Error: the XML response that was returned from the server is invalid.";
 					errorString += "\nReceived:\n" + r.responseText;
+					if (parseError != '') {
+						errorString += "\n" + parseError;
+					}
 					trimmedResponseText = r.responseText.replace( /^\s+/g, "" );// strip leading space
 					trimmedResponseText = trimmedResponseText.replace( /\s+$/g, "" );// strip trailing
 					if (trimmedResponseText != r.responseText)
@@ -491,8 +519,7 @@ function Xajax()
 					document.body.style.cursor = 'default';
 					if (xajaxStatusMessages == true) window.status = 'Invalid XML response error';
 				}
-			}
-			else {
+			} else {
 				if (xajax.responseErrorsForAlert.containsValue(r.status)) {
 					var errorString = "Error: the server returned the following HTTP status: " + r.status;
 					errorString += "\nReceived:\n" + r.responseText;

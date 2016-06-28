@@ -1,4 +1,9 @@
 (add new changes on top of this file)
+2016-06-28 Franz Holzinger  <franz@ttproducts.de>
+	* adapt the classes tx_taxajax and tx_taxajax_response to the TYPO3 coding guidelines
+	* insert the class xajaxCompress into the file xajaxCompress.php
+	* detect a parsererror tag in the responseXML and show an error dialog
+
 2016-05-02 Franz Holzinger  <franz@ttproducts.de>
 	* allow TYPO3 7.7
 

@@ -1,11 +1,11 @@
 /* xajax Javascript library :: version 0.2.4 */
-Array.prototype.containsValue=function(valueToCheck){for(var i=0;i<this.length;i++){if(this[i]==valueToCheck)return true;}
+Array.prototype.containsValue=function(valueToCheck){for(var i=0;i < this.length;i++){if(this[i]==valueToCheck)return true;}
 return false;}
-function Xajax(){this.DebugMessage=function(text){if(text.length > 1000)text=text.substr(0,1000)+"...\n[long response]\n...";try{if(this.debugWindow==undefined||this.debugWindow.closed==true){this.debugWindow=window.open('about:blank','xajax-debug','width=800,height=600,scrollbars=1,resizable,status');this.debugWindow.document.write('<html><head><title>Xajax debug output</title></head><body><h2>Xajax debug output</h2><div id="debugTag"></div></body></html>');}
+function Xajax(){this.DebugMessage=function(text){if(text.length > 1000)text=text.substr(0,1000)+"...\n[long response]\n...";try{if(this.debugWindow==undefined||this.debugWindow.closed==true){this.debugWindow=window.open('about:blank','xajax-debug','width=800,height=600,scrollbars=1,resizable,status');this.debugWindow.document.write('<html><head><title>Taxajax debug output</title></head><body><h2>Taxajax debug output</h2><div id="debugTag"></div></body></html>');}
 text=text.replace(/&/g,"&amp;")
 text=text.replace(/</g,"&lt;")
 text=text.replace(/>/g,"&gt;")
-debugTag=this.debugWindow.document.getElementById('debugTag');debugTag.innerHTML=('<b>'+(new Date()).toString()+'</b>: '+text+'<hr/>')+debugTag.innerHTML;}catch(e){alert("Xajax Debug:\n "+text);}
+debugTag=this.debugWindow.document.getElementById('debugTag');debugTag.innerHTML=('<b>'+(new Date()).toString()+'</b>: '+text+'<hr/>')+debugTag.innerHTML;}catch(e){alert("Taxajax Debug:\n "+text);}
 };this.workId='xajaxWork'+new Date().getTime();this.depth=0;this.responseErrorsForAlert=["400","401","402","403","404","500","501","502","503"];this.getRequestObject=function(){if(xajaxDebug)this.DebugMessage("Initializing Request Object..");var req=null;if(typeof XMLHttpRequest!="undefined")
 req=new XMLHttpRequest();if(!req&&typeof ActiveXObject!="undefined"){try{req=new ActiveXObject("Msxml2.XMLHTTP");}
 catch(e){try{req=new ActiveXObject("Microsoft.XMLHTTP");}
@@ -87,10 +87,14 @@ if(key!=null&&value!=null){data[key]=value;key=value=null;}
 }
 return data;}
 }
-this.loadingFunction=function(){};this.doneLoadingFunction=function(){};var loadingTimeout;this.call=function(sFunction,aArgs,sRequestType){var i,r,postData;if(document.body&&xajaxWaitCursor)
-document.body.style.cursor='wait';if(xajaxStatusMessages==true)window.status='Sending Request...';clearTimeout(loadingTimeout);loadingTimeout=setTimeout("xajax.loadingFunction();",400);if(xajaxDebug)this.DebugMessage("Starting xajax...");if(sRequestType==null){var xajaxRequestType=xajaxDefinedPost;}
-else{var xajaxRequestType=sRequestType;}
-var uri=xajaxRequestUri;var value;switch(xajaxRequestType){case xajaxDefinedGet:{var uriGet=uri.indexOf("?")==-1?"?xajax="+encodeURIComponent(sFunction):"&xajax="+encodeURIComponent(sFunction);if(aArgs){for(i=0;i<aArgs.length;i++){value=aArgs[i];if(typeof(value)=="object")
+this.loadingFunction=function(){};this.doneLoadingFunction=function(){};var loadingTimeout;this.hasParseError=function(xmldom){var errors;var result='';try{if(typeof DOMParser!="undefined"){errors=xmldom.getElementsByTagName('parsererror');if(errors.length > 0){throw new Error('XML parsing error: '+errors[0].textContent);}
+}else if(typeof ActiveXObject!='undefined'){if(xmldom.parseError!=0){throw new Error('XML parsing error: '+xmldom.parseError.reason);}
+}
+}catch(ex){result=ex;}
+return result;}
+this.call=function(sFunction,aArgs,sRequestType){var i,r,postData,parseError;if(document.body&&xajaxWaitCursor)
+document.body.style.cursor='wait';if(xajaxStatusMessages==true)window.status='Sending Request...';clearTimeout(loadingTimeout);loadingTimeout=setTimeout("xajax.loadingFunction();",400);if(xajaxDebug)this.DebugMessage("Starting xajax...");if(sRequestType==null){var xajaxRequestType=xajaxDefinedPost;}else{var xajaxRequestType=sRequestType;}
+var uri=xajaxRequestUri;var value;switch(xajaxRequestType){case xajaxDefinedGet:{var uriGet=uri.indexOf("?")==-1?"?xajax="+encodeURIComponent(sFunction):"&xajax="+encodeURIComponent(sFunction);if(aArgs){for(i=0;i < aArgs.length;i++){value=aArgs[i];if(typeof(value)=="object")
 value=this.objectToXML(value);uriGet+="&xajaxargs[]="+encodeURIComponent(value);}
 }
 uriGet+="&xajaxr="+new Date().getTime();uri+=uriGet;postData=null;}break;case xajaxDefinedPost:{postData="xajax="+encodeURIComponent(sFunction);postData+="&xajaxr="+new Date().getTime();if(aArgs){for(i=0;i <aArgs.length;i++){value=aArgs[i];if(typeof(value)=="object")
@@ -98,15 +102,19 @@ value=this.objectToXML(value);postData=postData+"&xajaxargs[]="+encodeURICompone
 }
 }break;default:
 alert("Illegal request type: "+xajaxRequestType);return false;break;}
-r=this.getRequestObject();if(!r)return false;r.open(xajaxRequestType==xajaxDefinedGet?"GET":"POST",uri,true);if(xajaxRequestType==xajaxDefinedPost){try{r.setRequestHeader("Method","POST "+uri+" HTTP/1.1");r.setRequestHeader("Content-Type","application/x-www-form-urlencoded");}
+r=this.getRequestObject();if(!r)return false;r.open(xajaxRequestType==xajaxDefinedGet ? "GET":"POST",uri,true);if(xajaxRequestType==xajaxDefinedPost){try{r.setRequestHeader("Method","POST "+uri+" HTTP/1.1");r.setRequestHeader("Content-Type","application/x-www-form-urlencoded");}
 catch(e){alert("Your browser does not appear to  support asynchronous requests using POST.");return false;}
 }
 r.onreadystatechange=function(){if(r.readyState!=4)
-return;if(r.status==200){if(xajaxDebug)xajax.DebugMessage("Received:\n"+r.responseText);if(r.responseXML&&r.responseXML.documentElement)
-xajax.processResponse(r.responseXML);else{var errorString="Error: the XML response that was returned from the server is invalid.";errorString+="\nReceived:\n"+r.responseText;trimmedResponseText=r.responseText.replace(/^\s+/g,"");trimmedResponseText=trimmedResponseText.replace(/\s+$/g,"");if(trimmedResponseText!=r.responseText)
+return;if(r.status==200){if(xajaxDebug){xajax.DebugMessage("Received:\n"+r.responseText);}
+if(
+r.responseXML&&
+r.responseXML.documentElement&&
+(parseError=xajax.hasParseError(r.responseXML))==''
+){xajax.processResponse(r.responseXML);}else{var errorString="Error: the XML response that was returned from the server is invalid.";errorString+="\nReceived:\n"+r.responseText;if(parseError!=''){errorString+="\n"+parseError;}
+trimmedResponseText=r.responseText.replace(/^\s+/g,"");trimmedResponseText=trimmedResponseText.replace(/\s+$/g,"");if(trimmedResponseText!=r.responseText)
 errorString+="\nYou have whitespace in your response.";alert(errorString);document.body.style.cursor='default';if(xajaxStatusMessages==true)window.status='Invalid XML response error';}
-}
-else{if(xajax.responseErrorsForAlert.containsValue(r.status)){var errorString="Error: the server returned the following HTTP status: "+r.status;errorString+="\nReceived:\n"+r.responseText;alert(errorString);}
+}else{if(xajax.responseErrorsForAlert.containsValue(r.status)){var errorString="Error: the server returned the following HTTP status: "+r.status;errorString+="\nReceived:\n"+r.responseText;alert(errorString);}
 document.body.style.cursor='default';if(xajaxStatusMessages==true)window.status='Invalid XML response error';}
 delete r;r=null;}
 if(xajaxDebug)this.DebugMessage("Calling "+sFunction+" uri="+uri+" (post:"+postData+")");r.send(postData);if(xajaxStatusMessages==true)window.status='Waiting for data...';delete r;return true;}
