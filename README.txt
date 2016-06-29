@@ -19,11 +19,12 @@ TYPO3 extension based on the  PHP Class Library Version 0.2.4 (stable release)
  | The original XAJAX library can be found at
  | http://www.xajax-project.org/
  |
- | Elmar Hinz (elmar.hinz@team-red.net)
+ | TYPO3 adaptions:
+ | Elmar Hinz and Franz Holzinger
  ------------------------------------------------------
 
 For documentation visit http://wiki.xajax-project.org/
-and read the TYPO3 .sxw document file as soon as it is available.
+and read the TYPO3 .sxw document file.
 
 
 ====================================================================
@@ -78,17 +79,13 @@ http://community.xajax-project.org
 to keep track of the latest news and participate in the community
 discussion.
 
-There is also a wiki with documentation, tips & tricks, and other
-information located at:
-http://wiki.xajax-project.org
-
 3. Installation
 
 To run xajax, you need:
 * Apache Web Server or IIS for Windows XP/2003 Server
    (other servers may or may not work and are not supported at this
    time)
-* PHP 4.3.x or PHP 5.x
+* PHP 5.3 and later
 * Minimum supported browsers: Internet Explorer 5.5, Firefox 1.0 (or
    equivalent Gecko-based browser), Safari 1.3, Opera 8.5 (older
    versions only work with GET requests)
@@ -101,16 +98,7 @@ know what that URL is relative your site pages so you can provide
 xajax with the correct installed folder URL). Note that the
 
 "thewall" folder in the "examples" folder needs to be writable by
-
 the Web server for that example to function.
-
-Within the main xajax folder there are two folders: "examples"
-and "tests". You should be able to view these PHP pages from your
-Web browser and see xajax working in action. If you can view the
-pages but the AJAX calls are not working, there may be something
-wrong with your server setup or perhaps your browser is not
-supported or configured correctly. If worst comes to worst, post
-a message in our forums and someone may be able to help you.
 
 4. Documentation
 
