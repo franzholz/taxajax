@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice for implementation of xajax as TYPO3 extension
  *
- *  (c) 2016 Elmar Hinz (elmar.hinz@team-red.net)
+ *  (c) 2017 Elmar Hinz (elmar.hinz@team-red.net)
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -155,7 +155,7 @@ class tx_taxajax
 	 * @param string  defaults to XAJAX_DEFAULT_CHAR_ENCODING defined above
 	 * @param boolean defaults to false
 	 */
-	public function tx_taxajax ($sRequestURI = '',$sWrapperPrefix = 'taxajax_', $sEncoding = XAJAX_DEFAULT_CHAR_ENCODING, $bDebug = false) {
+	public function tx_taxajax ($sRequestURI = '', $sWrapperPrefix = 'taxajax_', $sEncoding = XAJAX_DEFAULT_CHAR_ENCODING, $bDebug = false) {
 		$this->aFunctions = array();
 		$this->aObjects = array();
 		$this->aFunctionIncludeFiles = array();
@@ -1167,7 +1167,7 @@ function xajaxErrorHandler ($errno, $errstr, $errfile, $errline) {
 	$GLOBALS['xajaxErrorHandlerText'] .= '\n----\n[' . $errTypeStr . '] ' . $errstr . '\nerror in line ' . $errline . 'of file ' . $errfile;
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/taxajax/class.tx_taxajax.php'])	{
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/taxajax/class.tx_taxajax.php']) {
   include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/taxajax/class.tx_taxajax.php']);
 }
 

@@ -1,4 +1,8 @@
 (add new changes on top of this file)
+2017-04-07 Franz Holzinger  <franz@ttproducts.de>
+    * allow TYPO3 8.x
+    * add a composer.json file
+
 2016-06-28 Franz Holzinger  <franz@ttproducts.de>
 	* adapt the classes tx_taxajax and tx_taxajax_response to the TYPO3 coding guidelines
 	* insert the class xajaxCompress into the file xajaxCompress.php
@@ -26,7 +30,6 @@
 	* use correct class name tx_taxajax_response instead of tx_xajax_response
 
 2008-05-15 Franz Holzinger  <franz@fholzinger.com>
-
 	* do not show the TYPO3 reload message
 	* show PHP debug infos in the error window
 	* code copied from xajax extension 0.2.3 into taxajax

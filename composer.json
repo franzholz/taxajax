@@ -1,0 +1,53 @@
+{
+  "name": "jambagecom/taxajax",
+  "type": "typo3-cms-extension",
+  "description": "Enhancement to the xajax extension with TYPO3 specific code.",
+  "keywords": [
+    "TYPO3",
+    "extension",
+    "library",
+    "xajax"
+  ],
+  "support": {
+    "issues": "https://github.com/franzholz/taxajax/issues"
+  },
+  "homepage": "https://jambage.com",
+  "authors": [
+    {
+      "name": "Franz Holzinger",
+      "role": "Developer",
+      "homepage": "http://jambage.com"
+    }
+  ],
+  "license": [
+    "GPL-2.0+"
+  ],
+  "require": {
+    "php": ">=5.3.3",
+    "typo3/cms-core": ">=4.5.0,<8.99.99"
+  },
+  "autoload": {
+    "classmap": [
+      "/"
+    ]
+  },
+  "replace": {
+    "taxajax": "self.version",
+    "typo3-ter/taxajax": "self.version"
+  },
+  "config": {
+    "vendor-dir": ".Build/vendor",
+    "bin-dir": ".Build/bin",
+    "preferred-install": {
+      "typo3/cms": "source",
+      "typo3/cms-core": "source",
+      "*": "dist"
+    }
+  },
+  "extra": {
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": ".Build/Web"
+    }
+  }
+}
