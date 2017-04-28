@@ -1,7 +1,7 @@
 (add new changes on top of this file)
 
 2017-04-28 Franz Holzinger  <franz@ttproducts.de>
-    * use PHP5 constructor __construct
+    * use PHP5 constructor __construct for tx_taxajax and tx_taxajax_response
     * remove XCLASS for TYPO3 4.x
 
 2017-04-07 Franz Holzinger  <franz@ttproducts.de>

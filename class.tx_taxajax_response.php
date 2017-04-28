@@ -90,7 +90,7 @@ class tx_taxajax_response
 	 *                converted to HTML entities
 	 *
 	 */
-	public function tx_taxajax_response ($sEncoding = XAJAX_DEFAULT_CHAR_ENCODING, $bOutputEntities = false) {
+	public function __construct ($sEncoding = XAJAX_DEFAULT_CHAR_ENCODING, $bOutputEntities = false) {
 		$this->setCharEncoding($sEncoding);
 		$this->bOutputEntities = $bOutputEntities;
 	}
@@ -540,7 +540,4 @@ class tx_taxajax_response
 	}
 }// end class xajaxResponse
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/taxajax/class.tx_taxajax_response.php'])	{
-  include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/taxajax/class.tx_taxajax_response.php']);
-}
 
