@@ -1,3 +1,12 @@
+# TYPO3 extension taxajax
+
+## What is does
+
+This extension provides the xAjax PHP library 0.2.4.
+
+It is used by other TYPO3 extensions like tt_products.
+
+
 ==============================================================================
 TYPO3 extension based on the  PHP Class Library Version 0.2.4 (stable release)
 ==============================================================================

@@ -11,20 +11,20 @@
   "support": {
     "issues": "https://github.com/franzholz/taxajax/issues"
   },
-  "homepage": "https://jambage.com",
+  "homepage": "https://ttproducts.de",
   "authors": [
     {
       "name": "Franz Holzinger",
       "role": "Developer",
-      "homepage": "http://jambage.com"
+      "homepage": "https://jambage.com"
     }
   ],
   "license": [
-    "GPL-2.0+"
+    "GPL-2.0-or-later"
   ],
   "require": {
-    "php": ">=5.3.3",
-    "typo3/cms-core": ">=4.5.0,<8.99.99"
+    "php": ">=5.6.0,<7.3.99",
+    "typo3/cms-core": ">=7.6.0,<9.5.99"
   },
   "autoload": {
     "classmap": [
@@ -32,22 +32,13 @@
     ]
   },
   "replace": {
-    "taxajax": "self.version",
+    "jambagecom/taxajax": "self.version",
     "typo3-ter/taxajax": "self.version"
-  },
-  "config": {
-    "vendor-dir": ".Build/vendor",
-    "bin-dir": ".Build/bin",
-    "preferred-install": {
-      "typo3/cms": "source",
-      "typo3/cms-core": "source",
-      "*": "dist"
-    }
   },
   "extra": {
     "typo3/cms": {
-      "cms-package-dir": "{$vendor-dir}/typo3/cms",
-      "web-dir": ".Build/Web"
+      "extension-key": "taxajax"
     }
   }
 }
+

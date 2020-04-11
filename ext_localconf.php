@@ -1,11 +1,8 @@
 <?php
-
-if (!defined ('TYPO3_MODE')) {
-	die ('Access denied.');
-}
+defined('TYPO3_MODE') or die('Access denied.');
 
 if (!defined ('TAXAJAX_EXT')) {
-	define('TAXAJAX_EXT', 'taxajax');
+    define('TAXAJAX_EXT', 'taxajax');
 }
 
 
