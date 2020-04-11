@@ -2,60 +2,39 @@
 
 ## What is does
 
-This extension provides the xAjax PHP library 0.2.4.
-
+This extension provides the xAjax PHP Class Library Version 0.2.4.
 It is used by other TYPO3 extensions like tt_products.
 
+## License
+While xajax itself comes under the
+GNU LESSER GENERAL PUBLIC LICENSE (LGPL)
+the TYPO3 extension version comes under the
+GNU General Public License (GPL)
+The license change is proposed by LGPL Section 3.3
+It is irreversible for any copy or work derived from this.
+GNU General Public License can be found at
+http://www.gnu.org/copyleft/gpl.html.
+GNU LESSER General Public License can be found at
+http://www.gnu.org/copyleft/lgpl.html.
+The original XAJAX library can be found at
+http://www.xajax-project.org/
 
-==============================================================================
-TYPO3 extension based on the  PHP Class Library Version 0.2.4 (stable release)
-==============================================================================
+TYPO3 adaptions:
+Elmar Hinz and Franz Holzinger
 
- ------------------------------------------------------
- | While xajax itself comes under the
- | GNU LESSER GENERAL PUBLIC LICENSE (LGPL)
- | the TYPO3 extension version comes under the
- | GNU General Public License (GPL)
- | The license change is proposed by LGPL Section 3.3
- | It is irreversible for any copy or work derived from this.
- |
- | GNU General Public License can be found at
- | http://www.gnu.org/copyleft/gpl.html.
- |
- | GNU LESSER General Public License can be found at
- | http://www.gnu.org/copyleft/lgpl.html.
- |
- | The original XAJAX library can be found at
- | http://www.xajax-project.org/
- |
- | TYPO3 adaptions:
- | Elmar Hinz and Franz Holzinger
- ------------------------------------------------------
+
+## Documentation
 
 For documentation visit http://wiki.xajax-project.org/
 and read the TYPO3 .sxw document file.
 
 
-====================================================================
- xajax PHP Class Library
+# xajax PHP Class Library
  The easiest way to develop asynchronous Ajax applications with PHP
 
  Version 0.2.4 (stable release)
- README Text File
-
- ------------------------------------------------------
- | Release Notes:                                     |
- | http://wiki.xajax-project.org/0.2.4_Release_Notes  |
- |                                                    |
- | Lead Developers:                                   |
- | Jared White (jared@intuitivefuture.com)            |
- | J. Max Wilson (jmaxwilson@users.sourceforge.net)   |
- | Eion Robb (eion@bigfoot.com)                       |
- ------------------------------------------------------
-====================================================================
-
- :: To find out what's changed since the 0.2.3 release of xajax, ::
- :: view the Release Notes in the link above.                    ::
+ Release Notes:                                     
+ http://wiki.xajax-project.org/0.2.4_Release_Notes
 
 1. Introduction
 
@@ -128,4 +107,3 @@ the addresses listed at the top of this README.
 
 6. Good luck and enjoy!
 
-====================================================================
