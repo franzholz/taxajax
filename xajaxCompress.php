@@ -49,10 +49,10 @@ function xajaxCompressJavascript($sJS)
 	$sJS = str_replace("\r", "", $sJS);
 
 	//array to store replaced literal strings
-	$literal_strings = array();
+	$literal_strings = [];
 
 	//explode the string into lines
-	$lines = explode("\n",$sJS);
+	$lines = explode("\n", $sJS);
 	//loop through all the lines, building a new string at the same time as removing literal strings
 	$clean = "";
 	$inComment = false;
@@ -61,13 +61,13 @@ function xajaxCompressJavascript($sJS)
 	$escaped = false;
 	$quoteChar = "";
 
-	for($i=0; $i < count($lines); $i++)
+	for($i = 0; $i < count($lines); $i++)
 	{
 		$line = $lines[$i];
 		$inNormalComment = false;
 
 		//loop through line's characters and take out any literal strings, replace them with ___i___ where i is the index of this string
-		for($j=0; $j < strlen($line); $j++)
+		for($j = 0; $j < strlen($line); $j++)
 		{
 			$c = substr($line, $j, 1);
 			$d = substr($line, $j, 2);
@@ -76,7 +76,7 @@ function xajaxCompressJavascript($sJS)
 			if(!$inQuote && !$inComment)
 			{
 				//is this character a quote or a comment
-				if(($c=="\"" || $c=="'") && !$inComment && !$inNormalComment)
+				if(($c == "\"" || $c == "'") && !$inComment && !$inNormalComment)
 				{
 					$inQuote = true;
 					$inComment = false;
@@ -84,7 +84,7 @@ function xajaxCompressJavascript($sJS)
 					$quoteChar = $c;
 					$literal = $c;
 				}
-				else if($d=="/*" && !$inNormalComment)
+				else if($d == "/*" && !$inNormalComment)
 				{
 					$inQuote = false;
 					$inComment = true;
@@ -93,7 +93,7 @@ function xajaxCompressJavascript($sJS)
 					$literal = $d;
 					$j++;
 				}
-				else if($d=="//") //ignore string markers that are found inside comments
+				else if($d == "//") //ignore string markers that are found inside comments
 				{
 					$inNormalComment = true;
 					$clean .= $c;
@@ -117,7 +117,7 @@ function xajaxCompressJavascript($sJS)
 					array_push($literal_strings,$literal);
 
 				}
-				else if($inComment && $d=="*/")
+				else if($inComment && $d == "*/")
 				{
 					$inComment = false;
 					$literal .= $d;
@@ -142,10 +142,10 @@ function xajaxCompressJavascript($sJS)
 		$clean .= "\n";
 	}
 	//explode the clean string into lines again
-	$lines = explode("\n",$clean);
+	$lines = explode("\n", $clean);
 
 	//now process each line at a time
-	for($i=0; $i < count($lines); $i++)
+	for($i = 0; $i < count($lines); $i++)
 	{
 		$line = $lines[$i];
 

@@ -157,9 +157,9 @@ class tx_taxajax
 	 */
 	public function __construct ($sRequestURI = '', $sWrapperPrefix = 'taxajax_', $sEncoding = XAJAX_DEFAULT_CHAR_ENCODING, $bDebug = false)
 	{
-		$this->aFunctions = array();
-		$this->aObjects = array();
-		$this->aFunctionIncludeFiles = array();
+		$this->aFunctions = [];
+		$this->aObjects = [];
+		$this->aFunctionIncludeFiles = [];
 		$this->sRequestURI = $sRequestURI;
 		if ($this->sRequestURI == '')
 			$this->sRequestURI = $this->_detectURI();
@@ -377,7 +377,7 @@ class tx_taxajax
 	 * Javascript. If you want to register a function, pass in the name of that
 	 * function. If you want to register a static class method, pass in an
 	 * array like so:
-	 * <kbd>array("myFunctionName", "myClass", "myMethod")</kbd>
+	 * <kbd>["myFunctionName", "myClass", "myMethod"]</kbd>
 	 * For an object instance method, use an object variable for the second
 	 * array element (and in PHP 4 make sure you put an & before the variable
 	 * to pass the object by reference). Note: the function name is what you
@@ -385,7 +385,7 @@ class tx_taxajax
 	 * conflict with any other registered function name.
 	 *
 	 * <i>Usage:</i> <kbd>$xajax->registerFunction("myFunction");</kbd>
-	 * or: <kbd>$xajax->registerFunction(array("myFunctionName", &$myObject, "myMethod"));</kbd>
+	 * or: <kbd>$xajax->registerFunction(["myFunctionName", &$myObject, "myMethod"]);</kbd>
 	 *
 	 * @param mixed  contains the function name or an object callback array
 	 * @param mixed  request type (XAJAX_GET/XAJAX_POST) that should be used
@@ -529,7 +529,7 @@ class tx_taxajax
 		$bFoundFunction = true;
 		$bFunctionIsCatchAll = false;
 		$sFunctionNameForSpecial = '';
-		$aArgs = array();
+		$aArgs = [];
 		$sPreResponse = '';
 		$bEndRequest = false;
 		$sResponse = '';
@@ -617,7 +617,7 @@ class tx_taxajax
 				$mPreResponse =
 					$this->_callFunction(
 						$this->sPreFunction,
-						array($sFunctionNameForSpecial, $aArgs)
+						[$sFunctionNameForSpecial, $aArgs]
 					);
 
 				if (is_array($mPreResponse) && $mPreResponse[0] === false) {
@@ -643,7 +643,7 @@ class tx_taxajax
 					$sResponse = $objResponse->getXML();
 				} else {
 					if ($bFunctionIsCatchAll) {
-						$aArgs = array($sFunctionNameForSpecial, $aArgs);
+						$aArgs = [$sFunctionNameForSpecial, $aArgs];
 					}
 					$sResponse = $this->_callFunction($sFunctionName, $aArgs);
 				}
@@ -873,7 +873,7 @@ class tx_taxajax
 	 */
 	public function _detectURI ()
 	{
-		$aURL = array();
+		$aURL = [];
 
 		// Try to get the request URL
 		if (!empty($_SERVER['REQUEST_URI'])) {
@@ -1029,7 +1029,7 @@ class tx_taxajax
 	 */
 	public function _xmlToArray ($rootTag, $sXml)
 	{
-		$aArray = array();
+		$aArray = [];
 		$sXml = str_replace('<' . $rootTag . '>', '<' . $rootTag . '>|~|', $sXml);
 		$sXml = str_replace('</' . $rootTag . '>', '</' . $rootTag . '>|~|', $sXml);
 		$sXml = str_replace('<e>', '<e>|~|', $sXml);
@@ -1059,7 +1059,7 @@ class tx_taxajax
 	 */
 	public function _parseObjXml ($rootTag)
 	{
-		$aArray = array();
+		$aArray = [];
 
 		if ($rootTag == 'xjxobj') {
 			while(!stristr($this->aObjArray[$this->iPos], '</xjxobj>')) {
@@ -1126,7 +1126,7 @@ class tx_taxajax
 			// If magic quotes is on, then we need to strip the slashes from the
 			// array values because of the parse_str pass which adds slashes
 			if (get_magic_quotes_gpc() == 1) {
-				$newArray = array();
+				$newArray = [];
 				foreach ($aArray as $sKey => $sValue) {
 					if (is_string($sValue))
 						$newArray[$sKey] = stripslashes($sValue);

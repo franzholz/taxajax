@@ -139,7 +139,7 @@ class tx_taxajax_response
 	 */
 	public function addConfirmCommands ($iCmdNumber, $sMessage)
 	{
-		$this->xml .= $this->_cmdXML(array('n' => 'cc', 't' => $iCmdNumber), $sMessage);
+		$this->xml .= $this->_cmdXML(['n' => 'cc', 't' => $iCmdNumber], $sMessage);
 	}
 
 	/**
@@ -154,7 +154,7 @@ class tx_taxajax_response
 	 */
 	public function addAssign ($sTarget, $sAttribute, $sData)
 	{
-		$this->xml .= $this->_cmdXML(array('n' => 'as', 't' => $sTarget, 'p' => $sAttribute), $sData);
+		$this->xml .= $this->_cmdXML(['n' => 'as', 't' => $sTarget, 'p' => $sAttribute], $sData);
 	}
 
 	/**
@@ -169,7 +169,7 @@ class tx_taxajax_response
 	 */
 	public function addAppend ($sTarget, $sAttribute, $sData)
 	{
-		$this->xml .= $this->_cmdXML(array('n' => 'ap', 't' => $sTarget, 'p' => $sAttribute), $sData);
+		$this->xml .= $this->_cmdXML(['n' => 'ap', 't' => $sTarget, 'p' => $sAttribute], $sData);
 	}
 
 	/**
@@ -185,7 +185,7 @@ class tx_taxajax_response
 	 */
 	public function addPrepend ($sTarget,$sAttribute,$sData)
 	{
-		$this->xml .= $this->_cmdXML(array('n' => 'pp','t' => $sTarget, 'p' => $sAttribute), $sData);
+		$this->xml .= $this->_cmdXML(['n' => 'pp','t' => $sTarget, 'p' => $sAttribute], $sData);
 	}
 
 	/**
@@ -203,7 +203,7 @@ class tx_taxajax_response
 	public function addReplace ($sTarget, $sAttribute, $sSearch, $sData)
 	{
 		$sDta = '<s><![CDATA[' . $sSearch . ']]></s><r><![CDATA[' . $sData . ']]></r>';
-		$this->xml .= $this->_cmdXML(array('n' => 'rp', 't' => $sTarget, 'p' => $sAttribute), $sDta);
+		$this->xml .= $this->_cmdXML(['n' => 'rp', 't' => $sTarget, 'p' => $sAttribute], $sDta);
 	}
 
 	/**
@@ -229,7 +229,7 @@ class tx_taxajax_response
 	 */
 	public function addAlert ($sMsg)
 	{
-		$this->xml .= $this->_cmdXML(array('n' => 'al'), $sMsg);
+		$this->xml .= $this->_cmdXML(['n' => 'al'], $sMsg);
 	}
 
 	/**
@@ -272,7 +272,7 @@ class tx_taxajax_response
 	 */
 	public function addScript ($sJS)
 	{
-		$this->xml .= $this->_cmdXML(array('n' => 'js'), $sJS);
+		$this->xml .= $this->_cmdXML(['n' => 'js'], $sJS);
 	}
 
 	/**
@@ -288,7 +288,7 @@ class tx_taxajax_response
 		$arguments = func_get_args();
 		$sFunc = array_shift($arguments);
 		$sData = $this->_buildObjXml($arguments);
-		$this->xml .= $this->_cmdXML(array('n' => 'jc', 't' => $sFunc), $sData);
+		$this->xml .= $this->_cmdXML(['n' => 'jc', 't' => $sFunc], $sData);
 	}
 
 	/**
@@ -300,7 +300,7 @@ class tx_taxajax_response
 	 */
 	public function addRemove ($sTarget)
 	{
-		$this->xml .= $this->_cmdXML(array('n' => 'rm', 't' => $sTarget), '');
+		$this->xml .= $this->_cmdXML(['n' => 'rm', 't' => $sTarget], '');
 	}
 
 	/**
@@ -320,7 +320,7 @@ class tx_taxajax_response
 			trigger_error('The ' . $sType . ' parameter of addCreate has been deprecated.  Use the addCreateInput() method instead.', E_USER_WARNING);
 			return;
 		}
-		$this->xml .= $this->_cmdXML(array('n' => 'ce', 't' => $sParent, 'p' => $sId), $sTag);
+		$this->xml .= $this->_cmdXML(['n' => 'ce', 't' => $sParent, 'p' => $sId], $sTag);
 	}
 
 	/**
@@ -335,7 +335,7 @@ class tx_taxajax_response
 	 */
 	public function addInsert ($sBefore, $sTag, $sId)
 	{
-		$this->xml .= $this->_cmdXML(array('n' => 'ie', 't' => $sBefore, 'p' => $sId), $sTag);
+		$this->xml .= $this->_cmdXML(['n' => 'ie', 't' => $sBefore, 'p' => $sId], $sTag);
 	}
 
 	/**
@@ -350,7 +350,7 @@ class tx_taxajax_response
 	 */
 	public function addInsertAfter ($sAfter, $sTag, $sId)
 	{
-		$this->xml .= $this->_cmdXML(array('n' => 'ia', 't' => $sAfter, 'p' => $sId), $sTag);
+		$this->xml .= $this->_cmdXML(['n' => 'ia', 't' => $sAfter, 'p' => $sId], $sTag);
 	}
 
 	/**
@@ -368,7 +368,7 @@ class tx_taxajax_response
 	 */
 	public function addCreateInput ($sParent, $sType, $sName, $sId)
 	{
-		$this->xml .= $this->_cmdXML(array('n' => 'ci', 't' => $sParent, 'p' => $sId, 'c' => $sType), $sName);
+		$this->xml .= $this->_cmdXML(['n' => 'ci', 't' => $sParent, 'p' => $sId, 'c' => $sType], $sName);
 	}
 
 	/**
@@ -386,7 +386,7 @@ class tx_taxajax_response
 	 */
 	public function addInsertInput ($sBefore, $sType, $sName, $sId)
 	{
-		$this->xml .= $this->_cmdXML(array('n' => 'ii', 't' => $sBefore, 'p' => $sId, 'c' => $sType), $sName);
+		$this->xml .= $this->_cmdXML(['n' => 'ii', 't' => $sBefore, 'p' => $sId, 'c' => $sType], $sName);
 	}
 
 	/**
@@ -404,7 +404,7 @@ class tx_taxajax_response
 	 */
 	public function addInsertInputAfter ($sAfter, $sType, $sName, $sId)
 	{
-		$this->xml .= $this->_cmdXML(array('n' => 'iia', 't' => $sAfter, 'p' => $sId, 'c' => $sType), $sName);
+		$this->xml .= $this->_cmdXML(['n' => 'iia', 't' => $sAfter, 'p' => $sId, 'c' => $sType], $sName);
 	}
 
 	/**
@@ -418,7 +418,7 @@ class tx_taxajax_response
 	 */
 	public function addEvent ($sTarget, $sEvent, $sScript)
 	{
-		$this->xml .= $this->_cmdXML(array('n' => 'ev', 't' => $sTarget, 'p' => $sEvent), $sScript);
+		$this->xml .= $this->_cmdXML(['n' => 'ev', 't' => $sTarget, 'p' => $sEvent], $sScript);
 	}
 
 	/**
@@ -433,7 +433,7 @@ class tx_taxajax_response
 	 */
 	public function addHandler ($sTarget, $sEvent, $sHandler)
 	{
-		$this->xml .= $this->_cmdXML(array('n' => 'ah', 't' => $sTarget, 'p' => $sEvent), $sHandler);
+		$this->xml .= $this->_cmdXML(['n' => 'ah', 't' => $sTarget, 'p' => $sEvent], $sHandler);
 	}
 
 	/**
@@ -449,7 +449,7 @@ class tx_taxajax_response
 	 */
 	public function addRemoveHandler ($sTarget, $sEvent, $sHandler)
 	{
-		$this->xml .= $this->_cmdXML(array('n' => 'rh', 't' => $sTarget, 'p' => $sEvent), $sHandler);
+		$this->xml .= $this->_cmdXML(['n' => 'rh', 't' => $sTarget, 'p' => $sEvent], $sHandler);
 	}
 
 	/**
@@ -461,7 +461,7 @@ class tx_taxajax_response
 	 */
 	public function addIncludeScript ($sFileName)
 	{
-		$this->xml .= $this->_cmdXML(array('n' => 'in'), $sFileName);
+		$this->xml .= $this->_cmdXML(['n' => 'in'], $sFileName);
 	}
 
 	/**
@@ -521,7 +521,7 @@ class tx_taxajax_response
 	{
 		if ($this->bOutputEntities) {
 			if (function_exists('mb_convert_encoding')) {
-				$sData = call_user_func_array('mb_convert_encoding', array(&$sData, 'HTML-ENTITIES', $this->sEncoding));
+				$sData = call_user_func_array('mb_convert_encoding', [&$sData, 'HTML-ENTITIES', $this->sEncoding]);
 			}
 			else {
 				trigger_error('The xajax XML response output could not be converted to HTML entities because the mb_convert_encoding function is not available', E_USER_NOTICE);
