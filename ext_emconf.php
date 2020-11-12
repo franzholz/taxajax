@@ -10,7 +10,7 @@
 # writing. "version" and "dependencies" must not be touched!
 ########################################################################
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
 	'title' => 'TYPO3 adapted xaJax',
 	'description' => 'Enhancement to the xajax extension with TYPO3 specific code.',
 	'category' => 'misc',
@@ -22,13 +22,13 @@ $EM_CONF[$_EXTKEY] = array(
 	'author' => 'Jared White, J. Max Wilson, Franz Holzinger',
 	'author_email' => 'franz@ttproducts.de',
 	'author_company' => 'jambage.com',
-	'constraints' => array(
-		'depends' => array(
+	'constraints' => [
+		'depends' => [
 			'php' => '5.6.0-7.3.99',
 			'typo3' => '7.6.0-9.5.99',
-		),
-		'suggests' => array(
-		),
-	),
-);
+		],
+		'suggests' => [
+		],
+	],
+];
 

@@ -718,7 +718,7 @@ class tx_taxajax
 	 *               engine located within the xajax installation folder.
 	 *               Defaults to xajax_js/xajax.js.
 	 */
-	public function printJavascript ($sJsURI = '', $sJsFile = NULL)
+	public function printJavascript ($sJsURI = '', $sJsFile = null)
 	{
 		print $this->getJavascript($sJsURI, $sJsFile);
 	}
@@ -747,7 +747,7 @@ class tx_taxajax
 	 *               Defaults to xajax_js/xajax.js.
 	 * @return string
 	 */
-	public function getJavascript ($sJsURI = '', $sJsFile = NULL)
+	public function getJavascript ($sJsURI = '', $sJsFile = null)
 	{
 		$html = $this->getJavascriptConfig();
 		$html .= $this->getJavascriptInclude($sJsURI, $sJsFile);
@@ -799,9 +799,9 @@ class tx_taxajax
 	 *               Defaults to xajax_js/xajax.js.
 	 * @return string
 	 */
-	public function getJavascriptInclude ($sJsURI = '', $sJsFile = NULL)
+	public function getJavascriptInclude ($sJsURI = '', $sJsFile = null)
 	{
-		if ($sJsFile == NULL) {
+		if ($sJsFile == null) {
 			$sJsFile = 'xajax_js/xajax.js';
 		}
 
@@ -832,7 +832,7 @@ class tx_taxajax
 	 * @param string an optional argument containing the full server file path
 	 *               of xajax.js.
 	 */
-	public function autoCompressJavascript ($sJsFullFilename = NULL)
+	public function autoCompressJavascript ($sJsFullFilename = null)
 	{
 		$sJsFile = 'xajax_js/xajax.js';
 
@@ -1151,7 +1151,7 @@ class tx_taxajax
 	{
 		$sValue = $sData;
 		if ($this->bDecodeUTF8Input) {
-			$sFuncToUse = NULL;
+			$sFuncToUse = null;
 
 			if (function_exists('iconv')) {
 				$sFuncToUse = 'iconv';

@@ -53,7 +53,6 @@
  * the right id names in your response.
  *
  * @package taxajax
- * @version $Id: class.tx_taxajax_response.php 83647 2014-02-05 08:11:13Z franzholz $
  *
  */
 class tx_taxajax_response
@@ -185,7 +184,7 @@ class tx_taxajax_response
 	 */
 	public function addPrepend ($sTarget,$sAttribute,$sData)
 	{
-		$this->xml .= $this->_cmdXML(['n' => 'pp','t' => $sTarget, 'p' => $sAttribute], $sData);
+		$this->xml .= $this->_cmdXML(['n' => 'pp', 't' => $sTarget, 'p' => $sAttribute], $sData);
 	}
 
 	/**
@@ -215,7 +214,7 @@ class tx_taxajax_response
 	 * @param string the part of the element you wish to clear ('innerHTML',
 	 *               'value', etc.)
 	 */
-	public function addClear ($sTarget,$sAttribute)
+	public function addClear ($sTarget, $sAttribute)
 	{
 		$this->addAssign($sTarget, $sAttribute, '');
 	}
