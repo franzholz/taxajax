@@ -1,4 +1,7 @@
+
+
 2020-11-12 Franz Holzinger  <franz@ttproducts.de>
+    * remove file ext_autoload.php
     * restructuring for coding guidelines
 
 2020-04-11 Franz Holzinger  <franz@ttproducts.de>
