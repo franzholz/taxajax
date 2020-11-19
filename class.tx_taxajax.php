@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice for implementation of xajax as TYPO3 extension
  *
- *  (c) 2017 Elmar Hinz (elmar.hinz@team-red.net)
+ *  (c) 2020 Elmar Hinz (elmar.hinz@team-red.net)
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -523,7 +523,6 @@ class tx_taxajax
 	 */
 	public function processRequests ()
 	{
-
 		$requestMode = -1;
 		$sFunctionName = '';
 		$bFoundFunction = true;
@@ -544,9 +543,8 @@ class tx_taxajax
 
 			if (!empty($_POST['xajaxargs']))
 				$aArgs = $_POST['xajaxargs'];
-		}
-		else {
-			header ('Expires: Mon, 8 Oct 2012 05:00:00 GMT');
+		} else {
+			header ('Expires: Mon, 8 Oct 2025 05:00:00 GMT');
 			header ('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 			header ('Cache-Control: no-cache, must-revalidate');
 			header ('Pragma: no-cache');
@@ -650,7 +648,7 @@ class tx_taxajax
 				if (is_a($sResponse, 'tx_taxajax_response')) {
 					$sResponse = $sResponse->getXML();
 				}
-				if (!is_string($sResponse) || strpos($sResponse, '<xjx>') === FALSE) {
+				if (!is_string($sResponse) || strpos($sResponse, '<xjx>') === false) {
 					$objResponse = new tx_taxajax_response();
 					$objResponse->addAlert('No XML Response Was Returned By Function ß' . $sFunctionName);
 					$sResponse = $objResponse->getXML();
@@ -667,15 +665,14 @@ class tx_taxajax
 		if ($this->sEncoding && strlen(trim($this->sEncoding)) > 0)
 			$sContentHeader .= ' charset=' . $this->sEncoding;
 		header($sContentHeader);
-		if ($this->bErrorHandler && !empty( $GLOBALS['xajaxErrorHandlerText'] )) {
+		if ($this->bErrorHandler && !empty($GLOBALS['xajaxErrorHandlerText'])) {
 			$sErrorResponse = new tx_taxajax_response();
 			$sErrorResponse->addAlert('** PHP Error Messages: **' . $GLOBALS['xajaxErrorHandlerText']);
 			if ($this->sLogFile) {
 				$fH = @fopen($this->sLogFile, 'a');
 				if (!$fH) {
 					$sErrorResponse->addAlert('** Logging Error **\n\ntaxajax was unable to write to the error log file:\n' . $this->sLogFile);
-				}
-				else {
+				} else {
 					fwrite($fH, '** taxajax Error Log - ' . strftime('%b %e %Y %I:%M:%S %p') . ' **' . $GLOBALS['xajaxErrorHandlerText'] . '\n\n\n');
 					fclose($fH);
 				}
@@ -683,11 +680,15 @@ class tx_taxajax
 
 			$sErrorResponse->loadXML($sResponse);
 			$sResponse = $sErrorResponse->getXML();
-
 		}
-		if ($this->bCleanBuffer) while (@ob_end_clean());
+
+		if ($this->bCleanBuffer)
+            while (@ob_end_clean());
+
 		print $sResponse;
-		if ($this->bErrorHandler) restore_error_handler();
+
+		if ($this->bErrorHandler)
+            restore_error_handler();
 
 		if ($this->bExitAllowed)
 			exit();

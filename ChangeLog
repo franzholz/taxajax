@@ -1,4 +1,7 @@
 
+2020-11-19 Franz Holzinger  <franz@ttproducts.de>
+    * This library should work with TYPO3 10 as well.
+    * use Middleware and the parameter taxajax as parameter in links instead of the former eID.
 
 2020-11-12 Franz Holzinger  <franz@ttproducts.de>
     * remove file ext_autoload.php

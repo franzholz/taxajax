@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice for implementation of xajax as TYPO3 extension
  *
- *  (c) 2006-2017 Elmar Hinz (elmar.hinz@team-red.net)
+ *  (c) 2020 Elmar Hinz (elmar.hinz@team-red.net)
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -236,7 +236,7 @@ class tx_taxajax_response
 	 *
 	 * <i>Usage:</i> <kbd>$objResponse->addRedirect('http://www.xajax-project.org');</kbd>
 	 *
-	 * @param string the URL to redirect the client browser to
+ß	 * @param string the URL to redirect the client browser to
 	 */
 	public function addRedirect ($sURL)
 	{
@@ -244,11 +244,11 @@ class tx_taxajax_response
 		//can't just use parse_url() cos we could be dealing with a relative URL which
 		//  parse_url() can't deal with.
 		$queryStart = strpos($sURL, '?', strrpos($sURL, '/'));
-		if ($queryStart !== FALSE)
+		if ($queryStart !== false)
 		{
 			$queryStart++;
 			$queryEnd = strpos($sURL, '#', $queryStart);
-			if ($queryEnd === FALSE)
+			if ($queryEnd === false)
 				$queryEnd = strlen($sURL);
 			$queryPart = substr($sURL, $queryStart, $queryEnd-$queryStart);
 			parse_str($queryPart, $queryParts);
