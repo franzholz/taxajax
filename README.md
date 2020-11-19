@@ -9,7 +9,8 @@ It is used by other TYPO3 extensions like tt_products.
 
 In your extension.
  
-TYPO3 9.5 and later:
+### TYPO3 9.5 and later:
+
 Add the following line into the file ext_localconf.php of your extension my_ext.
 
 ```php
@@ -24,7 +25,8 @@ $addQueryString = [
 ];
 ```
 
-TYPO3 < 9.5:
+### TYPO3 < 9.5:
+
 For TYPO3 < 9.5 use the eID parameter instead of taxajax 
 
 ```php
