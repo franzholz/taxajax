@@ -598,10 +598,6 @@ class tx_taxajax
 
 		if ($bFoundFunction) {
 			for ($i = 0; $i < sizeof($aArgs); $i++) {
-				// If magic quotes is on, then we need to strip the slashes from the args
-				if (get_magic_quotes_gpc() == 1 && is_string($aArgs[$i])) {
-					$aArgs[$i] = stripslashes($aArgs[$i]);
-				}
 				if (stristr($aArgs[$i], '<xjxobj>') != false) {
 					$aArgs[$i] = $this->_xmlToArray('xjxobj', $aArgs[$i]);
 				} else if (stristr($aArgs[$i],'<xjxquery>') != false) {
@@ -1122,19 +1118,6 @@ class tx_taxajax
 				foreach($aArray as $key => $value) {
 					$aArray[$key] = $this->_decodeUTF8Data($value);
 				}
-			}
-
-			// If magic quotes is on, then we need to strip the slashes from the
-			// array values because of the parse_str pass which adds slashes
-			if (get_magic_quotes_gpc() == 1) {
-				$newArray = [];
-				foreach ($aArray as $sKey => $sValue) {
-					if (is_string($sValue))
-						$newArray[$sKey] = stripslashes($sValue);
-					else
-						$newArray[$sKey] = $sValue;
-				}
-				$aArray = $newArray;
 			}
 		}
 
