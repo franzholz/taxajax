@@ -14,7 +14,7 @@ $EM_CONF[$_EXTKEY] = [
     'title' => 'TYPO3 adapted xaJax',
     'description' => 'Enhancement to the xajax extension with TYPO3 specific code.',
     'category' => 'misc',
-    'version' => '0.5.0',
+    'version' => '0.5.1',
     'state' => 'stable',
     'uploadfolder' => 0,
     'createDirs' => '',
@@ -24,7 +24,7 @@ $EM_CONF[$_EXTKEY] = [
     'author_company' => 'jambage.com',
     'constraints' => [
         'depends' => [
-            'php' => '5.6.0-7.3.99',
+            'php' => '5.6.0-7.4.99',
             'typo3' => '8.7.0-10.4.99',
         ],
         'suggests' => [
