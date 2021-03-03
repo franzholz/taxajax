@@ -83,7 +83,7 @@ class XajaxHandler implements MiddlewareInterface
         );
         $scriptPath = GeneralUtility::getFileAbsFileName($configuration);
         if ($scriptPath === '') {
-            throw new Exception('Registered taxajax has invalid script path.', 11518042216);
+            throw new Exception('The registered xajax has an invalid script path.', 11518042216);
         }
         include $scriptPath;
 
