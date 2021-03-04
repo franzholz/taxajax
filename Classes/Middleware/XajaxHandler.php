@@ -47,7 +47,7 @@ class XajaxHandler implements MiddlewareInterface
         $eID = $request->getParsedBody()['eID'] ?? $request->getQueryParams()['eID'] ?? null;
         $taxajax = $request->getParsedBody()['taxajax'] ?? $request->getQueryParams()['taxajax'] ?? null;
 
-        // Do not use eID for xAjax!
+        // Do not use any more eID for xAjax!
         if ($eID != null || $taxajax === null) {
             return $handler->handle($request);
         }
@@ -64,15 +64,24 @@ class XajaxHandler implements MiddlewareInterface
         $response = GeneralUtility::makeInstance(Response::class);
 
         if (!isset($GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][$taxajax])) {
-            return $response->withStatus(404, 'taxajax not registered');
+            return $response->withStatus(404, 'taxajax has not been registered!');
         }
 
         $configuration = $GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][$taxajax];
 
-        // Simple check to make sure that it's not an absolute file (to use the fallback)
+        // Simple check to make sure that it is not an absolute file (to use the fallback)
         if (strpos($configuration, '::') !== false || is_callable($configuration)) {
-            /** @var Dispatcher $dispatcher */
-            $dispatcher = GeneralUtility::makeInstance(Dispatcher::class);
+            if (
+                defined('TYPO3_version') &&
+                version_compare(TYPO3_version, '10.4.0', '>=')
+            ) {
+                $container = GeneralUtility::getContainer();
+                /** @var Dispatcher $dispatcher */
+                $dispatcher = GeneralUtility::makeInstance(Dispatcher::class, $container);
+            } else {
+                /** @var Dispatcher $dispatcher */
+                $dispatcher = GeneralUtility::makeInstance(Dispatcher::class);
+            }
             $request = $request->withAttribute('target', $configuration);
             return $dispatcher->dispatch($request, $response) ?? new NullResponse();
         }

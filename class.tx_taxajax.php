@@ -544,7 +544,7 @@ class tx_taxajax
 			if (!empty($_POST['xajaxargs']))
 				$aArgs = $_POST['xajaxargs'];
 		} else {
-			header ('Expires: Mon, 8 Oct 2025 05:00:00 GMT');
+			header ('Expires: Mon, 8 Oct 2028 05:00:00 GMT');
 			header ('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 			header ('Cache-Control: no-cache, must-revalidate');
 			header ('Pragma: no-cache');
@@ -600,7 +600,7 @@ class tx_taxajax
 			for ($i = 0; $i < sizeof($aArgs); $i++) {
 				if (stristr($aArgs[$i], '<xjxobj>') != false) {
 					$aArgs[$i] = $this->_xmlToArray('xjxobj', $aArgs[$i]);
-				} else if (stristr($aArgs[$i],'<xjxquery>') != false) {
+				} else if (stristr($aArgs[$i], '<xjxquery>') != false) {
 					$aArgs[$i] = $this->_xmlToArray('xjxquery', $aArgs[$i]);
 				} else if ($this->bDecodeUTF8Input) {
 					$aArgs[$i] = $this->_decodeUTF8Data($aArgs[$i]);
