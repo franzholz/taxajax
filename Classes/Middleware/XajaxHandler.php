@@ -86,15 +86,10 @@ class XajaxHandler implements MiddlewareInterface
             return $dispatcher->dispatch($request, $response) ?? new NullResponse();
         }
         trigger_error(
-            'taxajax "' . $taxajax . '" is registered with a script to a file. This behaviour will be removed in taxajax v0.6.'
+            'taxajax "' . $taxajax . '" is registered with a script to the file "' . GeneralUtility::getFileAbsFileName($configuration) . '". This behaviour has been removed in taxajax v0.6.0'
             . ' Register taxajax with a class::method syntax like "\MyVendor\MyExtension\Controller\MyTaxajaxController::myMethod" instead.',
-            E_USER_DEPRECATED
+            E_USER_ERROR
         );
-        $scriptPath = GeneralUtility::getFileAbsFileName($configuration);
-        if ($scriptPath === '') {
-            throw new Exception('The registered xajax has an invalid script path.', 11518042216);
-        }
-        include $scriptPath;
 
         return new NullResponse();
     }
