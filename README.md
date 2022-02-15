@@ -8,7 +8,15 @@ It is used by other TYPO3 extensions like tt_products.
 ## Usage
 
 In your extension.
- 
+
+### TYPO3 11
+You must set this TypoScript to get the absolute image path:
+
+   config.absRefPrefix = /
+   
+Otherwise an image url "fileadmin/myimage.png" will not be found, because HTML will generate 
+a path like "https://example.com/subpage1/subpage2/fileadmin/myimage.png" out of it.
+
 ### TYPO3 9.5 and later:
 
 Add the following line into the file ext_localconf.php of your extension my_ext.
