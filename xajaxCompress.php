@@ -43,7 +43,7 @@ class xajaxCompress {
  *
  * @param string contains the Javascript code to compress
  */
-function xajaxCompressJavascript($sJS)
+static function xajaxCompressJavascript($sJS)
 {
 	//remove windows cariage returns
 	$sJS = str_replace("\r", "", $sJS);
@@ -171,13 +171,13 @@ function xajaxCompressJavascript($sJS)
 	$sJS = preg_replace("/[\n]+/", "\n", $sJS);
 
 	//strip out line breaks that immediately follow a semi-colon
-	$sJS = preg_replace("/;\n/",";",$sJS);
+	$sJS = preg_replace("/;\n/", ";", $sJS);
 
 	//curly brackets aren't on their own
 	$sJS = preg_replace("/[\n]*\{[\n]*/", "{", $sJS);
 
 	//finally loop through and replace all the literal strings:
-	for($i=0; $i < count($literal_strings); $i++)
+	for($i = 0; $i < count($literal_strings); $i++)
 		$sJS = str_replace("___" . $i . "___", $literal_strings[$i], $sJS);
 
 	return $sJS;

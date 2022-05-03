@@ -1,12 +1,12 @@
 /* xajax Javascript library :: version 0.2.4 */
 Array.prototype.containsValue=function(valueToCheck){for(var i=0;i < this.length;i++){if(this[i]==valueToCheck)return true;}
 return false;}
-function Xajax(){this.DebugMessage=function(text){if(text.length > 1000)text=text.substr(0,1000)+"...\n[long response]\n...";try{if(this.debugWindow==undefined||this.debugWindow.closed==true){this.debugWindow=window.open('about:blank','xajax-debug','width=800,height=600,scrollbars=1,resizable,status');this.debugWindow.document.write('<html><head><title>Taxajax debug output</title></head><body><h2>Taxajax debug output</h2><div id="debugTag"></div></body></html>');}
+function Xajax(){this.DebugMessage=function(text){if(text.length > 24000)text=text.substr(0,24000)+" ...\n[long response]\n ...";try{if(this.debugWindow==undefined||this.debugWindow.closed==true){this.debugWindow=window.open('about:blank','xajax-debug','width=800,height=600,scrollbars=1,resizable,status');this.debugWindow.document.write('<html><head><title>Taxajax debug output (max. 24000 characters)</title></head><body><h2>Taxajax debug output</h2><div id="debugTag"></div></body></html>');}
 text=text.replace(/&/g,"&amp;")
 text=text.replace(/</g,"&lt;")
 text=text.replace(/>/g,"&gt;")
-debugTag=this.debugWindow.document.getElementById('debugTag');debugTag.innerHTML=('<b>'+(new Date()).toString()+'</b>: '+text+'<hr/>')+debugTag.innerHTML;}catch(e){alert("Taxajax Debug:\n "+text);}
-};this.workId='xajaxWork'+new Date().getTime();this.depth=0;this.responseErrorsForAlert=["400","401","402","403","404","500","501","502","503"];this.getRequestObject=function(){if(xajaxDebug)this.DebugMessage("Initializing Request Object..");var req=null;if(typeof XMLHttpRequest!="undefined")
+debugTag=this.debugWindow.document.getElementById('debugTag');debugTag.innerHTML=('<b>'+(new Date()).toString()+'</b>: '+text+'<hr/>')+debugTag.innerHTML;}catch(e){alert("Taxajax Debug Exception:\n "+text);}
+};this.workId='xajaxWork'+new Date().getTime();this.depth=0;this.responseErrorsForAlert=["400","401","402","403","404","500","501","502","503"];this.getRequestObject=function(){if(xajaxDebug)this.DebugMessage("Initializing Request Object ...");var req=null;if(typeof XMLHttpRequest!="undefined")
 req=new XMLHttpRequest();if(!req&&typeof ActiveXObject!="undefined"){try{req=new ActiveXObject("Msxml2.XMLHTTP");}
 catch(e){try{req=new ActiveXObject("Microsoft.XMLHTTP");}
 catch(e2){try{req=new ActiveXObject("Msxml2.XMLHTTP.4.0");}
@@ -15,7 +15,8 @@ catch(e3){req=null;}
 }
 }
 if(!req&&window.createRequest)
-req=window.createRequest();if(!req)this.DebugMessage("Request Object Instantiation failed.");return req;}
+req=window.createRequest();if(!req){this.DebugMessage("Request Object Instantiation failed.");alert("Taxajax Debug Exception during Request Object Instantiation!\n ");}
+return req;}
 this.$=function(sId){if(!sId){return null;}
 var returnObj=document.getElementById(sId);if(!returnObj&&document.all){returnObj=document.all[sId];}
 if(xajaxDebug&&!returnObj&&sId!=this.workId){this.DebugMessage("Element with the id \""+sId+"\" not found.");}
@@ -93,7 +94,7 @@ this.loadingFunction=function(){};this.doneLoadingFunction=function(){};var load
 }catch(ex){result=ex;}
 return result;}
 this.call=function(sFunction,aArgs,sRequestType){var i,r,postData,parseError;if(document.body&&xajaxWaitCursor)
-document.body.style.cursor='wait';if(xajaxStatusMessages==true)window.status='Sending Request...';clearTimeout(loadingTimeout);loadingTimeout=setTimeout("xajax.loadingFunction();",400);if(xajaxDebug)this.DebugMessage("Starting xajax...");if(sRequestType==null){var xajaxRequestType=xajaxDefinedPost;}else{var xajaxRequestType=sRequestType;}
+document.body.style.cursor='wait';if(xajaxStatusMessages==true)window.status='Sending Request ...';clearTimeout(loadingTimeout);loadingTimeout=setTimeout("xajax.loadingFunction();",400);if(xajaxDebug)this.DebugMessage("Starting xajax ...");if(sRequestType==null){var xajaxRequestType=xajaxDefinedPost;}else{var xajaxRequestType=sRequestType;}
 var uri=xajaxRequestUri;var value;switch(xajaxRequestType){case xajaxDefinedGet:{var uriGet=uri.indexOf("?")==-1?"?xajax="+encodeURIComponent(sFunction):"&xajax="+encodeURIComponent(sFunction);if(aArgs){for(i=0;i < aArgs.length;i++){value=aArgs[i];if(typeof(value)=="object")
 value=this.objectToXML(value);uriGet+="&xajaxargs[]="+encodeURIComponent(value);}
 }
@@ -107,17 +108,21 @@ catch(e){alert("Your browser does not appear to  support asynchronous requests u
 }
 r.onreadystatechange=function(){if(r.readyState!=4)
 return;if(r.status==200){if(xajaxDebug){xajax.DebugMessage("Received:\n"+r.responseText);}
-if(
+parseError='';if(
 r.responseXML&&
 r.responseXML.documentElement&&
 (parseError=xajax.hasParseError(r.responseXML))==''
-){xajax.processResponse(r.responseXML);}else{var errorString="Error: the XML response that was returned from the server is invalid.";errorString+="\nReceived:\n"+r.responseText;if(parseError!=''){errorString+="\n"+parseError;}
-trimmedResponseText=r.responseText.replace(/^\s+/g,"");trimmedResponseText=trimmedResponseText.replace(/\s+$/g,"");if(trimmedResponseText!=r.responseText)
-errorString+="\nYou have whitespace in your response.";alert(errorString);document.body.style.cursor='default';if(xajaxStatusMessages==true)window.status='Invalid XML response error';}
+){xajax.processResponse(r.responseXML);}else{let errorString="ERROR: The XML response that was received from the server is invalid.";if(!r.responseXML){errorString+="\nNo XMLHttpRequest responseXML !\n";}else if(
+typeof r.responseXML!=='object'||
+!r.responseXML.documentElement
+){errorString+="\nNo XMLHttpRequest responseXML.documentElement !\n";}
+if(parseError!=''){errorString+="\nXML Error:"+parseError+"\n";}
+errorString+="\nReceived:\n"+r.responseText;trimmedResponseText=r.responseText.replace(/^\s+/g,"");trimmedResponseText=trimmedResponseText.replace(/\s+$/g,"");if(trimmedResponseText!=r.responseText)
+errorString+="\nYou have whitespace in your response.";prompt("Copy to clipboard: Ctrl+C, Enter",errorString);document.body.style.cursor='default';if(xajaxStatusMessages==true)window.status='Invalid XML response error';}
 }else{if(xajax.responseErrorsForAlert.containsValue(r.status)){var errorString="Error: the server returned the following HTTP status: "+r.status;errorString+="\nReceived:\n"+r.responseText;alert(errorString);}
 document.body.style.cursor='default';if(xajaxStatusMessages==true)window.status='Invalid XML response error';}
 delete r;r=null;}
-if(xajaxDebug)this.DebugMessage("Calling "+sFunction+" uri="+uri+" (post:"+postData+")");r.send(postData);if(xajaxStatusMessages==true)window.status='Waiting for data...';delete r;return true;}
+if(xajaxDebug)this.DebugMessage("Calling "+sFunction+" uri="+uri+" (post:"+postData+")");r.send(postData);if(xajaxStatusMessages==true)window.status='Waiting for data ...';delete r;return true;}
 this.getBrowserHTML=function(html){tmpXajax=this.$(this.workId);if(!tmpXajax){tmpXajax=document.createElement("div");tmpXajax.setAttribute('id',this.workId);tmpXajax.style.display="none";tmpXajax.style.visibility="hidden";document.body.appendChild(tmpXajax);}
 tmpXajax.innerHTML=html;var browserHTML=tmpXajax.innerHTML;tmpXajax.innerHTML='';return browserHTML;}
 this.willChange=function(element,attribute,newData){if(!document.body){return true;}
@@ -126,7 +131,7 @@ elementObject=this.$(element);if(elementObject){var oldData;eval("oldData=this.$
 return true;}
 return false;}
 this.viewSource=function(){return "<html>"+document.getElementsByTagName("HTML")[0].innerHTML+"</html>";}
-this.processResponse=function(xml){clearTimeout(loadingTimeout);this.doneLoadingFunction();if(xajaxStatusMessages==true)window.status='Processing...';var tmpXajax=null;xml=xml.documentElement;if(xml==null)
+this.processResponse=function(xml){clearTimeout(loadingTimeout);this.doneLoadingFunction();if(xajaxStatusMessages==true)window.status='Processing ...';var tmpXajax=null;xml=xml.documentElement;if(xml==null)
 return;var skipCommands=0;for(var i=0;i<xml.childNodes.length;i++){if(skipCommands > 0){skipCommands--;continue;}
 if(xml.childNodes[i].nodeName=="cmd"){var cmd;var id;var property;var data;var search;var type;var before;var objElement=null;for(var j=0;j<xml.childNodes[i].attributes.length;j++){if(xml.childNodes[i].attributes[j].name=="n"){cmd=xml.childNodes[i].attributes[j].value;}
 else if(xml.childNodes[i].attributes[j].name=="t"){id=xml.childNodes[i].attributes[j].value;}

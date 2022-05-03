@@ -478,8 +478,10 @@ class tx_taxajax_response
 		$sXML = '<?xml version="1.0"';
 		if ($this->sEncoding && strlen(trim($this->sEncoding)) > 0)
 			$sXML .= ' encoding="' . $this->sEncoding . '"';
-		$sXML .= ' ?'.'><xjx>' . $this->xml . '</xjx>';
+		$sXML .= ' ?' . '><xjx>' . $this->xml . '</xjx>';
 
+        ob_clean();  // see:
+            // https://stackoverflow.com/questions/55915371/php-returns-whitespace-character-before-anything-after-ajax-request
 		return $sXML;
 	}
 

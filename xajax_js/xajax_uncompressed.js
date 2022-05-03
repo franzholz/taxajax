@@ -12,11 +12,11 @@ function Xajax()
 {
 	this.DebugMessage = function(text)
 	{
-		if (text.length > 1000) text = text.substr(0, 1000) + "...\n[long response]\n...";
+		if (text.length > 24000) text = text.substr(0, 24000) + " ...\n[long response]\n ...";
 		try {
 			if (this.debugWindow == undefined || this.debugWindow.closed == true) {
 				this.debugWindow = window.open('about:blank', 'xajax-debug', 'width=800,height=600,scrollbars=1,resizable,status');
-				this.debugWindow.document.write('<html><head><title>Taxajax debug output</title></head><body><h2>Taxajax debug output</h2><div id="debugTag"></div></body></html>');
+				this.debugWindow.document.write('<html><head><title>Taxajax debug output (max. 24000 characters)</title></head><body><h2>Taxajax debug output</h2><div id="debugTag"></div></body></html>');
 			}
 			text = text.replace(/&/g, "&amp;")
 			text = text.replace(/</g, "&lt;")
@@ -24,7 +24,7 @@ function Xajax()
 			debugTag = this.debugWindow.document.getElementById('debugTag');
 			debugTag.innerHTML = ('<b>'+(new Date()).toString()+'</b>: ' + text + '<hr/>') + debugTag.innerHTML;
 		} catch (e) {
-			alert("Taxajax Debug:\n " + text);
+			alert("Taxajax Debug Exception:\n " + text);
 		}
 	};
 
@@ -35,29 +35,29 @@ function Xajax()
 	//Get the XMLHttpRequest Object
 	this.getRequestObject = function()
 	{
-		if (xajaxDebug) this.DebugMessage("Initializing Request Object..");
+		if (xajaxDebug) this.DebugMessage("Initializing Request Object ...");
 		var req = null;
 		if (typeof XMLHttpRequest != "undefined")
 			req = new XMLHttpRequest();
 		if (!req && typeof ActiveXObject != "undefined") {
 			try
 			{
-				req=new ActiveXObject("Msxml2.XMLHTTP");
+				req = new ActiveXObject("Msxml2.XMLHTTP");
 			}
 			catch (e)
 			{
 				try
 				{
-					req=new ActiveXObject("Microsoft.XMLHTTP");
+					req = new ActiveXObject("Microsoft.XMLHTTP");
 				}
 				catch (e2)
 				{
 					try {
-						req=new ActiveXObject("Msxml2.XMLHTTP.4.0");
+						req = new ActiveXObject("Msxml2.XMLHTTP.4.0");
 					}
 					catch (e3)
 					{
-						req=null;
+						req = null;
 					}
 				}
 			}
@@ -65,7 +65,10 @@ function Xajax()
 		if(!req && window.createRequest)
 			req = window.createRequest();
 
-		if (!req) this.DebugMessage("Request Object Instantiation failed.");
+		if (!req) {
+            this.DebugMessage("Request Object Instantiation failed.");
+            alert("Taxajax Debug Exception during Request Object Instantiation!\n ");
+        }
 
 		return req;
 	}
@@ -431,10 +434,10 @@ function Xajax()
 		var i,r,postData,parseError;
 		if (document.body && xajaxWaitCursor)
 			document.body.style.cursor = 'wait';
-		if (xajaxStatusMessages == true) window.status = 'Sending Request...';
+		if (xajaxStatusMessages == true) window.status = 'Sending Request ...';
 		clearTimeout(loadingTimeout);
 		loadingTimeout = setTimeout("xajax.loadingFunction();", 400);
-		if (xajaxDebug) this.DebugMessage("Starting xajax...");
+		if (xajaxDebug) this.DebugMessage("Starting xajax ...");
 		if (sRequestType == null) {
 		   var xajaxRequestType = xajaxDefinedPost;
 		} else {
@@ -499,6 +502,7 @@ function Xajax()
 				if (xajaxDebug) {
 					xajax.DebugMessage("Received:\n" + r.responseText);
 				}
+				parseError = '';
 				if (
 					r.responseXML &&
 					r.responseXML.documentElement &&
@@ -506,16 +510,24 @@ function Xajax()
 				) {
 					xajax.processResponse(r.responseXML);
 				} else {
-					var errorString = "Error: the XML response that was returned from the server is invalid.";
-					errorString += "\nReceived:\n" + r.responseText;
+					let errorString = "ERROR: The XML response that was received from the server is invalid.";
+                    if (!r.responseXML) {
+                        errorString += "\nNo XMLHttpRequest responseXML !\n";
+                    } else if (
+                        typeof r.responseXML !== 'object' ||
+                        !r.responseXML.documentElement
+                    ) {
+                        errorString += "\nNo XMLHttpRequest responseXML.documentElement !\n";
+                    }
 					if (parseError != '') {
-						errorString += "\n" + parseError;
+						errorString += "\nXML Error:" + parseError + "\n";
 					}
+					errorString += "\nReceived:\n" + r.responseText;
 					trimmedResponseText = r.responseText.replace( /^\s+/g, "" );// strip leading space
-					trimmedResponseText = trimmedResponseText.replace( /\s+$/g, "" );// strip trailing
+					trimmedResponseText = trimmedResponseText.replace( /\s+$/g, "" );// strip trailing blanks
 					if (trimmedResponseText != r.responseText)
-						errorString += "\nYou have whitespace in your response.";
-					alert(errorString);
+						errorString += "\nYou have a whitespace in your response.";
+                    prompt("Copy to clipboard: Ctrl+C, Enter", errorString);
 					document.body.style.cursor = 'default';
 					if (xajaxStatusMessages == true) window.status = 'Invalid XML response error';
 				}
@@ -534,20 +546,20 @@ function Xajax()
 		}
 		if (xajaxDebug) this.DebugMessage("Calling "+sFunction +" uri="+uri+" (post:"+ postData +")");
 		r.send(postData);
-		if (xajaxStatusMessages == true) window.status = 'Waiting for data...';
+		if (xajaxStatusMessages == true) window.status = 'Waiting for data ...';
 		delete r;
 		return true;
 	}
 
-	//Gets the text as it would be if it were being retrieved from
-	//the innerHTML property in the current browser
+	// Gets the text as it would be if it were being retrieved from
+	// the innerHTML property in the current browser
 	this.getBrowserHTML = function(html)
 	{
 		tmpXajax = this.$(this.workId);
 		if (!tmpXajax)
 		{
 			tmpXajax = document.createElement("div");
-			tmpXajax.setAttribute('id',this.workId);
+			tmpXajax.setAttribute('id', this.workId);
 			tmpXajax.style.display = "none";
 			tmpXajax.style.visibility = "hidden";
 			document.body.appendChild(tmpXajax);
@@ -592,7 +604,7 @@ function Xajax()
 	{
 		clearTimeout(loadingTimeout);
 		this.doneLoadingFunction();
-		if (xajaxStatusMessages == true) window.status = 'Processing...';
+		if (xajaxStatusMessages == true) window.status = 'Processing ...';
 		var tmpXajax = null;
 		xml = xml.documentElement;
 		if (xml == null)
@@ -654,9 +666,9 @@ function Xajax()
 						if (xml.childNodes[i].childNodes[j].childNodes.length > 1 && xml.childNodes[i].childNodes[j].firstChild.nodeName == "#cdata-section")
 						{
 							var internalData = "";
-							for (var k=0; k<xml.childNodes[i].childNodes[j].childNodes.length;k++)
+							for (var k=0; k<xml.childNodes[i].childNodes[j].childNodes.length; k++)
 							{
-								internalData+=xml.childNodes[i].childNodes[j].childNodes[k].nodeValue;
+								internalData += xml.childNodes[i].childNodes[j].childNodes[k].nodeValue;
 							}
 						} else {
 							var internalData = xml.childNodes[i].childNodes[j].firstChild.nodeValue;

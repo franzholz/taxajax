@@ -29,26 +29,6 @@
  *
  */
 
-/**
- * Define XAJAX_DEFAULT_CHAR_ENCODING that is used by both
- * the tx_xajax and tx_taxajax_response classes
- */
-if (!defined ('XAJAX_DEFAULT_CHAR_ENCODING'))
-{
-	define ('XAJAX_DEFAULT_CHAR_ENCODING', 'utf-8' );
-}
-
-/**
- * Communication Method Defines
- */
-if (!defined ('XAJAX_GET'))
-{
-	define ('XAJAX_GET', 0);
-}
-if (!defined ('XAJAX_POST'))
-{
-	define ('XAJAX_POST', 1);
-}
 
 /**
  * The tx_taxajax class generates the xajax javascript for your page including the
@@ -798,12 +778,24 @@ class tx_taxajax
 	 */
 	public function getJavascriptInclude ($sJsURI = '', $sJsFile = null)
 	{
+        $useDefaultFile = false;
+        if ($sJsURI == null) {
+            $sJsURI = 
+                \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
+                    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(TAXAJAX_EXT)
+                );
+        }
 		if ($sJsFile == null) {
+            $useDefaultFile = true;
 			$sJsFile = 'xajax_js/xajax.js';
 		}
 
 		if ($sJsURI != '' && substr($sJsURI, -1) != '/') {
 			$sJsURI .= '/';
+		}
+
+		if ($useDefaultFile && !file_exists($sJsURI . $sJsFile)) {
+            $sJsFile = 'xajax_js/xajax_uncompressed.js';
 		}
 
 		$html = chr(9) . '<script type="text/javascript" src="' . $sJsURI . $sJsFile . '"></script>' . chr(13);
@@ -826,23 +818,27 @@ class tx_taxajax
 	 * xajax_uncompressed.js file (which will only happen if xajax.js doesn't
 	 * already exist on the filesystem).
 	 *
+	 * TYPO3 example:
+	 * 		$taxajax = GeneralUtility::makeInstance('tx_taxajax');
+     *      $taxajax->autoCompressJavascript(null, true);
+	 *
 	 * @param string an optional argument containing the full server file path
 	 *               of xajax.js.
+	 * @param bAlways - (boolean):  Compress the file, even if it already exists.
 	 */
-	public function autoCompressJavascript ($sJsFullFilename = null)
+	public function autoCompressJavascript ($sJsFullFilename = null, $bAlways = false)
 	{
 		$sJsFile = 'xajax_js/xajax.js';
 
 		if ($sJsFullFilename) {
 			$realJsFile = $sJsFullFilename;
-		}
-		else {
+		} else {
 			$realPath = realpath(dirname(__FILE__));
 			$realJsFile = $realPath . '/' . $sJsFile;
 		}
 
 		// Create a compressed file if necessary
-		if (!file_exists($realJsFile)) {
+		if (!file_exists($realJsFile) || true == $bAlways) {
 			$srcFile = str_replace('.js', '_uncompressed.js', $realJsFile);
 			if (!file_exists($srcFile)) {
 				trigger_error('The xajax uncompressed Javascript file could not be found in the <b>' . dirname($realJsFile) . '</b> folder. Error ', E_USER_ERROR);
@@ -854,8 +850,7 @@ class tx_taxajax
 
 			if (!$fH) {
 				trigger_error('The xajax compressed javascript file could not be written in the <b>' . dirname($realJsFile) . '</b> folder. Error ', E_USER_ERROR);
-			}
-			else {
+			} else {
 				fwrite($fH, $compressedScript);
 				fclose($fH);
 			}
@@ -939,7 +934,7 @@ class tx_taxajax
 		}
 
 		// Add the path and the query string
-		$sURL.= $aURL['path'] . @$aURL['query'];
+		$sURL .= $aURL['path'] . @$aURL['query'];
 
 		// Clean up
 		unset($aURL);
@@ -1093,7 +1088,7 @@ class tx_taxajax
 						$this->iPos++;
 					}
 
-					$aArray[$key]=$value;
+					$aArray[$key] = $value;
 				}
 			}
 		}
@@ -1186,12 +1181,27 @@ function xajaxErrorHandler ($errno, $errstr, $errfile, $errline)
 		$errTypeStr = 'USER WARNING';
 	} else if ($errno == E_USER_ERROR) {
 		$errTypeStr = 'USER FATAL ERROR';
-	} else if ($errno == E_STRICT) {
+	} else if (defined('E_STRICT') && $errno == E_STRICT) {
 		return;
 	} else {
 		$errTypeStr = 'UNKNOWN:' . $errno;
 	}
-	$GLOBALS['xajaxErrorHandlerText'] .= '\n----\n[' . $errTypeStr . '] ' . $errstr . '\nerror in line ' . $errline . 'of file ' . $errfile;
+	$sCrLf = "\n";
+	
+	ob_start();
+	echo $GLOBALS['xajaxErrorHandlerText'];
+	echo $sCrLf;
+	echo '----';
+	echo $sCrLf;
+	echo '[';
+	echo $errTypeStr;
+	echo '] ';
+	echo $errstr;
+	echo $sCrLf;
+	echo 'Error on line ';
+	echo $errline;
+	echo ' of file ';
+	echo $errfile;
+	$GLOBALS['xajaxErrorHandlerText'] = ob_get_clean();
 }
-
 
