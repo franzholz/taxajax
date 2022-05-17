@@ -1,3 +1,6 @@
+2022-05-17 Franz Holzinger  <franz@ttproducts.de>
+    * compatibility PHP 8.0:  mb_convert_encoding: Passing null to parameter no. 1 ($string) of type array|string is deprecated. Skip all data with null value from the generated XML.
+
 2022-05-03 Franz Holzinger  <franz@ttproducts.de>
     * bugfix: Clear possible whitespace coming from the PHP side. getXML: ob_clean().
     This solves the error message: You have a whitespace in your response.

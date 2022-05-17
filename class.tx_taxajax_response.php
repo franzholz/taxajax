@@ -520,11 +520,14 @@ class tx_taxajax_response
 	 */
 	public function _cmdXML ($aAttributes, $sData)
 	{
+        if (!is_string($sData)) {
+            return '';
+        }
+
 		if ($this->bOutputEntities) {
 			if (function_exists('mb_convert_encoding')) {
 				$sData = call_user_func_array('mb_convert_encoding', [&$sData, 'HTML-ENTITIES', $this->sEncoding]);
-			}
-			else {
+			} else {
 				trigger_error('The xajax XML response output could not be converted to HTML entities because the mb_convert_encoding function is not available', E_USER_NOTICE);
 			}
 		}

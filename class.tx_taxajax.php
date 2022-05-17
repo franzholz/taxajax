@@ -1146,8 +1146,7 @@ class tx_taxajax
 				if (is_string($sValue)) {
 					if ($sFuncToUse == 'iconv') {
 						$sValue = iconv('UTF-8', $this->sEncoding . '//TRANSLIT', $sValue);
-					}
-					else if ($sFuncToUse == 'mb_convert_encoding') {
+					} else if ($sFuncToUse == 'mb_convert_encoding') {
 						$sValue = mb_convert_encoding($sValue, $this->sEncoding, 'UTF-8');
 					} else {
 						$sValue = utf8_decode($sValue);
