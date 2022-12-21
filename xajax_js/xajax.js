@@ -21,7 +21,7 @@ this.$=function(sId){if(!sId){return null;}
 var returnObj=document.getElementById(sId);if(!returnObj&&document.all){returnObj=document.all[sId];}
 if(xajaxDebug&&!returnObj&&sId!=this.workId){this.DebugMessage("Element with the id \""+sId+"\" not found.");}
 return returnObj;}
-this.include=function(sFileName){var objHead=document.getElementsByTagName('head');var objScript=document.createElement('script');objScript.type='text/javascript';objScript.src=sFileName;objHead[0].appendChild(objScript);}
+this.include=function(sFileName){var objHead=document.getElementsByTagName('head');var objScript=document.createElement('script');objScript.src=sFileName;objHead[0].appendChild(objScript);}
 this.stripOnPrefix=function(sEventName){sEventName=sEventName.toLowerCase();if(sEventName.indexOf('on')==0){sEventName=sEventName.replace(/on/,'');}
 return sEventName;}
 this.addOnPrefix=function(sEventName){sEventName=sEventName.toLowerCase();if(sEventName.indexOf('on')!=0){sEventName='on'+sEventName;}
@@ -118,7 +118,7 @@ typeof r.responseXML!=='object'||
 ){errorString+="\nNo XMLHttpRequest responseXML.documentElement !\n";}
 if(parseError!=''){errorString+="\nXML Error:"+parseError+"\n";}
 errorString+="\nReceived:\n"+r.responseText;trimmedResponseText=r.responseText.replace(/^\s+/g,"");trimmedResponseText=trimmedResponseText.replace(/\s+$/g,"");if(trimmedResponseText!=r.responseText)
-errorString+="\nYou have whitespace in your response.";prompt("Copy to clipboard: Ctrl+C, Enter",errorString);document.body.style.cursor='default';if(xajaxStatusMessages==true)window.status='Invalid XML response error';}
+errorString+="\nYou have a whitespace in your response.";prompt("Copy to clipboard: Ctrl+C, Enter",errorString);document.body.style.cursor='default';if(xajaxStatusMessages==true)window.status='Invalid XML response error';}
 }else{if(xajax.responseErrorsForAlert.containsValue(r.status)){var errorString="Error: the server returned the following HTTP status: "+r.status;errorString+="\nReceived:\n"+r.responseText;alert(errorString);}
 document.body.style.cursor='default';if(xajaxStatusMessages==true)window.status='Invalid XML response error';}
 delete r;r=null;}

@@ -94,7 +94,6 @@ function Xajax()
 	{
 		var objHead = document.getElementsByTagName('head');
 		var objScript = document.createElement('script');
-		objScript.type = 'text/javascript';
 		objScript.src = sFileName;
 		objHead[0].appendChild(objScript);
 	}

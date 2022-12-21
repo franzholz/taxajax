@@ -740,7 +740,7 @@ class tx_taxajax
 	 */
 	public function getJavascriptConfig ()
 	{
-		$html  = chr(9) . '<script type="text/javascript">' . chr(13);
+		$html  = chr(9) . '<script>' . chr(13);
 		$html .= '/*<![CDATA[*/' . chr(13);
 		$html .= 'var xajaxRequestUri="' . $this->sRequestURI . '";' . chr(13);
 		$html .= 'var xajaxDebug=' . ($this->bDebug ? 'true' : 'false') . ';' . chr(13);
@@ -798,8 +798,8 @@ class tx_taxajax
             $sJsFile = 'xajax_js/xajax_uncompressed.js';
 		}
 
-		$html = chr(9) . '<script type="text/javascript" src="' . $sJsURI . $sJsFile . '"></script>' . chr(13);
-		$html .= chr(9) . '<script type="text/javascript">' . chr(13);
+		$html = chr(9) . '<script src="' . $sJsURI . $sJsFile . '"></script>' . chr(13);
+		$html .= chr(9) . '<script>' . chr(13);
 		$html .=
 'window.setTimeout(
 	function () {
