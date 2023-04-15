@@ -1,3 +1,6 @@
+2023-04-15 Franz Holzinger  <franz@ttproducts.de>
+    * bugfix for TYPO3 12
+
 2022-12-21 Franz Holzinger  <franz@ttproducts.de>
     * compatibility: remove unnecessary text/javascript type attribute
     * compatibility: TYPO3 12.0
