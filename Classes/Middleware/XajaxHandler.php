@@ -71,17 +71,9 @@ class XajaxHandler implements MiddlewareInterface
 
         // Simple check to make sure that it is not an absolute file (to use the fallback)
         if (strpos($configuration, '::') !== false || is_callable($configuration)) {
-            if (
-                defined('TYPO3_version') &&
-                version_compare(TYPO3_version, '10.4.0', '>=')
-            ) {
-                $container = GeneralUtility::getContainer();
-                /** @var Dispatcher $dispatcher */
-                $dispatcher = GeneralUtility::makeInstance(Dispatcher::class, $container);
-            } else {
-                /** @var Dispatcher $dispatcher */
-                $dispatcher = GeneralUtility::makeInstance(Dispatcher::class);
-            }
+            $container = GeneralUtility::getContainer();
+            /** @var Dispatcher $dispatcher */
+            $dispatcher = GeneralUtility::makeInstance(Dispatcher::class, $container);
             $request = $request->withAttribute('target', $configuration);
             return $dispatcher->dispatch($request, $response) ?? new NullResponse();
         }
