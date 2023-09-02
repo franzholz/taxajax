@@ -934,7 +934,7 @@ class tx_taxajax
 		}
 
 		// Add the path and the query string
-		$sURL .= $aURL['path'] . @$aURL['query'];
+		$sURL .= $aURL['path'] . ($aURL['query'] ?? '');
 
 		// Clean up
 		unset($aURL);
