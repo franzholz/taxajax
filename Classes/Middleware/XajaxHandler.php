@@ -75,7 +75,7 @@ class XajaxHandler implements MiddlewareInterface
             /** @var Dispatcher $dispatcher */
             $dispatcher = GeneralUtility::makeInstance(Dispatcher::class, $container);
             $request = $request->withAttribute('target', $configuration);
-            return $dispatcher->dispatch($request, $response) ?? new NullResponse();
+            return $dispatcher->dispatch($request) ?? new NullResponse();
         }
         trigger_error(
             'taxajax "' . $taxajax . '" is registered with a script to the file "' . GeneralUtility::getFileAbsFileName($configuration) . '". This behaviour has been removed in taxajax v0.6.0'
