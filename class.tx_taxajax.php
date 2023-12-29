@@ -1,4 +1,6 @@
 <?php
+use TYPO3\CMS\Core\Utility\PathUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 /***************************************************************
  *  Copyright notice for implementation of xajax as TYPO3 extension
  *
@@ -781,8 +783,8 @@ class tx_taxajax
         $useDefaultFile = false;
         if ($sJsURI == null) {
             $sJsURI = 
-                \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
-                    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(TAXAJAX_EXT)
+                PathUtility::stripPathSitePrefix(
+                    ExtensionManagementUtility::extPath(TAXAJAX_EXT)
                 );
         }
 		if ($sJsFile == null) {
@@ -833,7 +835,7 @@ class tx_taxajax
 		if ($sJsFullFilename) {
 			$realJsFile = $sJsFullFilename;
 		} else {
-			$realPath = realpath(dirname(__FILE__));
+			$realPath = realpath(__DIR__);
 			$realJsFile = $realPath . '/' . $sJsFile;
 		}
 

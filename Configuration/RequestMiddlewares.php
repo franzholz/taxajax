@@ -1,9 +1,10 @@
 <?php
 
+use JambageCom\Taxajax\Middleware\XajaxHandler;
 return [
     'frontend' => [
         'jambagecom/taxajax/preprocessing' => [
-            'target' =>  \JambageCom\Taxajax\Middleware\XajaxHandler::class,
+            'target' =>  XajaxHandler::class,
             'description' => 'The Ajax calls will be processed and no page will be generated.',
             'after' => [
                 'typo3/cms-frontend/page-resolver'
@@ -14,4 +15,3 @@ return [
         ]
     ]
 ];
-

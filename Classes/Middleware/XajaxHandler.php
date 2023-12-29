@@ -14,7 +14,7 @@ namespace JambageCom\Taxajax\Middleware;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
+use JambageCom\Div2007\Utility\FrontendUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -52,7 +52,7 @@ class XajaxHandler implements MiddlewareInterface
             return $handler->handle($request);
         }
 
-        $pageId = \JambageCom\Div2007\Utility\FrontendUtility::getPageId($request);
+        $pageId = FrontendUtility::getPageId($request);
         if ($pageId) {
             $_REQUEST['id'] = $_GET['id'] = $pageId;
         }
