@@ -468,7 +468,7 @@ class tx_taxajax
 	 *
 	 * @return boolean
 	 */
-	public function canProcessRequests ()
+	public function canProcessRequests (): bool
 	{
 		if ($this->getRequestMode() != -1) {
 			return true;
@@ -951,7 +951,7 @@ class tx_taxajax
 	 * @access private
 	 * @return boolean
 	 */
-	public function _isObjectCallback ($sFunction)
+	public function _isObjectCallback ($sFunction): bool
 	{
 		if (array_key_exists($sFunction, $this->aObjects)) return true;
 		return false;
