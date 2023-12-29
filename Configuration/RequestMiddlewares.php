@@ -1,6 +1,7 @@
 <?php
 
 use JambageCom\Taxajax\Middleware\XajaxHandler;
+
 return [
     'frontend' => [
         'jambagecom/taxajax/preprocessing' => [
