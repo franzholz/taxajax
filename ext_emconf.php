@@ -10,7 +10,6 @@ $EM_CONF[$_EXTKEY] = [
     'category' => 'misc',
     'version' => '1.0.0',
     'state' => 'stable',
-    'clearCacheOnLoad' => 0,
     'author' => 'Jared White, J. Max Wilson, Franz Holzinger',
     'author_email' => 'franz@ttproducts.de',
     'author_company' => 'jambage.com',
