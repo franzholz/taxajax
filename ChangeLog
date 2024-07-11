@@ -1,6 +1,11 @@
 
+
+2024-07-11 Franz Holzinger  <franz@ttproducts.de>
+    * Only TYPO3 12 is supported now
+    * always use mb_convert_encoding: Replace HTML-Entities encoding by UTF-8, htmlentities and htmlspecialchars_decode
+
 2023-12-29 Franz Holzinger  <franz@ttproducts.de>
-	* use rector to improve the PHP code
+    * use rector to improve the PHP code
 
 2023-05-01 Franz Holzinger  <franz@ttproducts.de>
     * bugfix for TYPO3 12

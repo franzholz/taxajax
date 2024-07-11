@@ -1140,29 +1140,10 @@ class tx_taxajax
     public function _decodeUTF8Data($sData)
     {
         $sValue = $sData;
+
         if ($this->bDecodeUTF8Input) {
-            $sFuncToUse = null;
-
-            if (function_exists('iconv')) {
-                $sFuncToUse = 'iconv';
-            } elseif (function_exists('mb_convert_encoding')) {
-                $sFuncToUse = 'mb_convert_encoding';
-            } elseif ($this->sEncoding == 'ISO-8859-1') {
-                $sFuncToUse = 'utf8_decode';
-            } else {
-                trigger_error('The incoming xajax data could not be converted from UTF-8', E_USER_NOTICE);
-            }
-
-            if ($sFuncToUse) {
-                if (is_string($sValue)) {
-                    if ($sFuncToUse == 'iconv') {
-                        $sValue = iconv('UTF-8', $this->sEncoding . '//TRANSLIT', $sValue);
-                    } elseif ($sFuncToUse == 'mb_convert_encoding') {
-                        $sValue = mb_convert_encoding($sValue, $this->sEncoding, 'UTF-8');
-                    } else {
-                        $sValue = utf8_decode($sValue);
-                    }
-                }
+            if (is_string($sValue)) {
+                $sValue = mb_convert_encoding($sValue, $this->sEncoding, 'UTF-8');
             }
         }
         return $sValue;
