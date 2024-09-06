@@ -16,16 +16,21 @@ namespace JambageCom\Taxajax\Middleware;
  *
  * The TYPO3 project - inspiring people to share!
  */
-use JambageCom\Div2007\Utility\FrontendUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+
 use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Http\Dispatcher;
 use TYPO3\CMS\Core\Http\NullResponse;
 use TYPO3\CMS\Core\Http\Response;
+use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\ErrorController;
+use TYPO3\CMS\Frontend\Page\PageAccessFailureReasons;
+
+use JambageCom\Div2007\Utility\FrontendUtility;
 
 /**
  * Lightweight alternative to regular frontend requests; used when $_GET[eID] is set.
@@ -52,6 +57,16 @@ class XajaxHandler implements MiddlewareInterface
         // Do not use any more eID for xAjax!
         if ($eID != null || $taxajax === null) {
             return $handler->handle($request);
+        }
+        $GLOBALS['TSFE']->preparePageContentGeneration($request);
+
+        $site = $request->getAttribute('site');
+        if (!$site instanceof Site) {
+            return GeneralUtility::makeInstance(ErrorController::class)->pageNotFoundAction(
+                $request,
+                'No site configuration found.',
+                ['code' => PageAccessFailureReasons::PAGE_NOT_FOUND]
+            );
         }
 
         $pageId = FrontendUtility::getPageId($request);
