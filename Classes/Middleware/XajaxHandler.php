@@ -28,6 +28,7 @@ use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\ErrorController;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\Page\PageAccessFailureReasons;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
@@ -58,7 +59,14 @@ class XajaxHandler implements MiddlewareInterface
         if ($eID != null || $taxajax === null) {
             return $handler->handle($request);
         }
-        $GLOBALS['TSFE']->preparePageContentGeneration($request);
+
+        $controller = $request->getAttribute('frontend.controller') ??
+            $this->getTypoScriptFrontendController() ??
+            null;
+        if ($controller instanceof TypoScriptFrontendController) {
+            // required to calculate/set absRefPrefix correctly
+            $controller->preparePageContentGeneration($request);
+        }
 
         $site = $request->getAttribute('site');
         if (!$site instanceof Site) {
@@ -101,5 +109,10 @@ class XajaxHandler implements MiddlewareInterface
         );
 
         return new NullResponse();
+    }
+
+    private function getCurrentFrontendController(): ?TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'] ?? null;
     }
 }
