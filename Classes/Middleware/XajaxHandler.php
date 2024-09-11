@@ -61,7 +61,7 @@ class XajaxHandler implements MiddlewareInterface
         }
 
         $controller = $request->getAttribute('frontend.controller') ??
-            $this->getTypoScriptFrontendController() ??
+            $this->getCurrentFrontendController() ??
             null;
         if ($controller instanceof TypoScriptFrontendController) {
             // required to calculate/set absRefPrefix correctly
