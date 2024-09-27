@@ -528,7 +528,7 @@ class tx_taxajax
                 $aArgs = $_POST['xajaxargs'];
             }
         } else {
-            header('Expires: Mon, 8 Oct 2028 05:00:00 GMT');
+            header('Expires: Mon, 10 Oct 2029 05:00:00 GMT');
             header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
             header('Cache-Control: no-cache, must-revalidate');
             header('Pragma: no-cache');

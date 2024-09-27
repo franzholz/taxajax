@@ -523,7 +523,6 @@ class tx_taxajax_response
         if (!is_string($sData)) {
             return '';
         }
-
         if ($this->bOutputEntities) {
             if (function_exists('mb_convert_encoding')) {
                 $sData = call_user_func_array('mb_convert_encoding', [&$sData, 'UTF-8', $this->sEncoding]);
