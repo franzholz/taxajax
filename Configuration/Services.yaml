@@ -1,0 +1,9 @@
+# EXT:taxajax/Configuration/Services.yaml
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  JambageCom\Taxajax\:
+    resource: '../Classes/*'
