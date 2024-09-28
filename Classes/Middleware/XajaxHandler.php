@@ -21,15 +21,17 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-use TYPO3\CMS\Core\Exception;
+use TYPO3\CMS\Core\EventDispatcher\ListenerProvider;
 use TYPO3\CMS\Core\Http\Dispatcher;
 use TYPO3\CMS\Core\Http\NullResponse;
 use TYPO3\CMS\Core\Http\Response;
+use TYPO3\CMS\Core\Resource\Event\GeneratePublicUrlForResourceEvent;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\ErrorController;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\Page\PageAccessFailureReasons;
+use TYPO3\CMS\Frontend\Resource\PublicUrlPrefixer;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 
@@ -42,13 +44,17 @@ use JambageCom\Div2007\Utility\FrontendUtility;
  */
 class XajaxHandler implements MiddlewareInterface
 {
+    public function __construct(
+        private readonly ListenerProvider $listenerProvider,
+    ) {
+    }
+
     /**
      * Dispatches the request to the corresponding eID class or eID script
      *
      * @param ServerRequestInterface $request
      * @param RequestHandlerInterface $handler
      * @return ResponseInterface
-     * @throws Exception
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
@@ -67,6 +73,11 @@ class XajaxHandler implements MiddlewareInterface
             // required to calculate/set absRefPrefix correctly
             $controller->preparePageContentGeneration($request);
         }
+        $this->listenerProvider->addListener(
+            GeneratePublicUrlForResourceEvent::class,
+            PublicUrlPrefixer::class,
+            'prefixWithAbsRefPrefix'
+        );
 
         $site = $request->getAttribute('site');
         if (!$site instanceof Site) {

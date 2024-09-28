@@ -2,6 +2,7 @@
 
 use JambageCom\Taxajax\Middleware\XajaxHandler;
 
+// EXT:taxajax/Configuration/RequestMiddlewares.php
 return [
     'frontend' => [
         'jambagecom/taxajax/preprocessing' => [
@@ -10,8 +11,10 @@ return [
             'after' => [
                 'typo3/cms-frontend/prepare-tsfe-rendering'
             ],
+            'before' => [
+                'typo3/cms-frontend/content-length-headers',
+            ],
         ],
     ],
 ];
 
-// 'typo3/cms-frontend/tsfe',

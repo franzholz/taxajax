@@ -1,11 +1,12 @@
 <?php
 
+// EXT:taxajax/ext_localconf.php
+
 defined('TYPO3') || die('Access denied.');
 
 if (!defined('TAXAJAX_EXT')) {
     define('TAXAJAX_EXT', 'taxajax');
 }
-
 
 /**
  * Define XAJAX_DEFAULT_CHAR_ENCODING that is used by both
@@ -14,7 +15,6 @@ if (!defined('TAXAJAX_EXT')) {
 if (!defined('XAJAX_DEFAULT_CHAR_ENCODING')) {
     define('XAJAX_DEFAULT_CHAR_ENCODING', 'utf-8');
 }
-
 
 /**
  * Communication Method Defines
@@ -26,3 +26,5 @@ if (!defined('XAJAX_GET')) {
 if (!defined('XAJAX_POST')) {
     define('XAJAX_POST', 1);
 }
+
+$GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'][] = 'taxajax';
