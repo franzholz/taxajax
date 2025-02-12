@@ -1,4 +1,6 @@
 
+2025-02-12 Franz Holzinger  <franz@ttproducts.de>
+    * compatibility TYPO3: Move Javascript files from xajax_js into Resources/Public/JavaScript:
 
 2024-07-11 Franz Holzinger  <franz@ttproducts.de>
     * Only TYPO3 12 is supported now
