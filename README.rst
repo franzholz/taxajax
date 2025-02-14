@@ -12,16 +12,20 @@ Usage
 
 In your extension.
 
-TYPO3 11 and later
-~~~~~~~~~~~~~~~~~~
+TypoScript
+~~~~~~~~~~
 
 You must set this TypoScript to get the absolute image path:
 
-config.absRefPrefix = /
+.. code::
+
+   config.absRefPrefix = /
 
 or
 
-config.absRefPrefix = auto
+.. code::
+
+   config.absRefPrefix = auto
 
 Otherwise an image url “fileadmin/myimage.png” will not be found,
 because HTML will generate a path like
@@ -29,8 +33,8 @@ because HTML will generate a path like
 Only an image url like “/fileadmin/myimage.png” can be found,
 
 
-TYPO3 9.5 and later:
-~~~~~~~~~~~~~~~~~~~~
+Extension Development:
+~~~~~~~~~~~~~~~~~~~~~~
 
 Add the following line into the file ext_localconf.php of your extension
 my_ext.
@@ -58,6 +62,17 @@ querystring:
        'eID' => 'my_ext'
    ];
 
+
+Routing Enhancer:
+~~~~~~~~~~~~~~~~~
+
+.. code:: xml
+
+  imports:
+    - { resource: "EXT:taxajax/Configuration/Routes/Default.yaml" }
+
+
+
 License
 -------
 
@@ -83,7 +98,8 @@ xajax PHP Class Library
 
 The easiest way to develop asynchronous Ajax applications with PHP
 
-| Version 0.2.4 (stable release).
+Version 0.2.4 (stable release)
+------------------------------
 
 1. Introduction
 
@@ -107,31 +123,22 @@ xajax.
 
 2. For More Information
 
-The official xajax Web site is located at: https://github.com/Xajax/Xajax
+The official xajax Web site is located at: `Xajax <https://github.com/Xajax/Xajax>`_
 
-Visit the xajax Issues at: https://github.com/Xajax/Xajax/issues to keep
-track of the latest news and participate in the community discussion.
+The development has been finished in October 2014.
 
 3. Installation
 
-To run xajax, you need: \* Apache Web Server or IIS for Windows XP/2003
-Server (other servers may or may not work and are not supported at this
-time) \* PHP 8.0 and later
+To run xajax, you need:
 
-To install xajax: Unpack the contents of this archive and copy them to
+* Apache Web Server or IIS for Windows XP/2003 Server (other servers may work)
+* PHP 8.0 and later
+
+To install xajax:
+
+Unpack the contents of this archive and copy them to
 your main Web site folder. Or if you wish, you can put all of the files
 in a dedicated “xajax” folder on your Web server (make sure that you
 know what that URL is relative your site pages so you can provide xajax
 with the correct installed folder URL).
 
-4. Documentation
-
-Detailed documentation for the xajax PHP classes is available on our
-wiki (URL listed above in section 2), and more is on the way
-(particularly in regards to the Javascript component of xajax). Another
-good way of learning xajax is to look at the code for the examples and
-tests. If you need any help, pop in the forums and ask for assistance
-(and the more specific your questions are, the better the answers will
-be).
-
-5. Good luck and enjoy!

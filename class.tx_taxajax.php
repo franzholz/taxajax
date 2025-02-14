@@ -702,7 +702,7 @@ class tx_taxajax
      *               xajax is in the same folder as your PHP file.
      * @param string the relative folder/file pair of the xajax Javascript
      *               engine located within the xajax installation folder.
-     *               Defaults to xajax_js/xajax.js.
+     *               Defaults to Resources/Public/JavaScript/xajax.js.
      */
     public function printJavascript($sJsURI = '', $sJsFile = null): void
     {
@@ -730,7 +730,7 @@ class tx_taxajax
      *               xajax is in the same folder as your PHP file.
      * @param string the relative folder/file pair of the xajax Javascript
      *               engine located within the xajax installation folder.
-     *               Defaults to xajax_js/xajax.js.
+     *               Defaults to Resources/Public/JavaScript/xajax.js.
      * @return string
      */
     public function getJavascript($sJsURI = '', $sJsFile = null)
@@ -782,7 +782,7 @@ class tx_taxajax
      *               xajax is in the same folder as your PHP file.
      * @param string the relative folder/file pair of the xajax Javascript
      *               engine located within the xajax installation folder.
-     *               Defaults to xajax_js/xajax.js.
+     *               Defaults to Resources/Public/JavaScript/xajax.js.
      * @return string
      */
     public function getJavascriptInclude($sJsURI = '', $sJsFile = null)
@@ -796,7 +796,7 @@ class tx_taxajax
         }
         if ($sJsFile == null) {
             $useDefaultFile = true;
-            $sJsFile = 'xajax_js/xajax.js';
+            $sJsFile = 'Resources/Public/JavaScript/xajax.js';
         }
 
         if ($sJsURI != '' && substr($sJsURI, -1) != '/') {
@@ -804,7 +804,7 @@ class tx_taxajax
         }
 
         if ($useDefaultFile && !file_exists($sJsURI . $sJsFile)) {
-            $sJsFile = 'xajax_js/xajax_uncompressed.js';
+            $sJsFile = 'Resources/Public/JavaScript/xajax_uncompressed.js';
         }
 
         $html = chr(9) . '<script src="' . $sJsURI . $sJsFile . '"></script>' . chr(13);
@@ -837,7 +837,7 @@ class tx_taxajax
      */
     public function autoCompressJavascript($sJsFullFilename = null, $bAlways = false): void
     {
-        $sJsFile = 'xajax_js/xajax.js';
+        $sJsFile = 'Resources/Public/JavaScript/xajax.js';
 
         if ($sJsFullFilename) {
             $realJsFile = $sJsFullFilename;
