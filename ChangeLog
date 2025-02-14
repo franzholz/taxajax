@@ -1,4 +1,7 @@
 
+2025-02-14 Franz Holzinger  <franz@ttproducts.de>
+    * compatibility TYPO3: Replace _detectURI by TYPO3 getRequestUri() method
+
 2025-02-12 Franz Holzinger  <franz@ttproducts.de>
     * compatibility TYPO3: Move Javascript files from xajax_js into Resources/Public/JavaScript:
 
