@@ -17,11 +17,15 @@ TypoScript
 
 You must set this TypoScript to get the absolute image path:
 
-config.absRefPrefix = /
+.. code::
+
+   config.absRefPrefix = /
 
 or
 
-config.absRefPrefix = auto
+.. code::
+
+   config.absRefPrefix = auto
 
 Otherwise an image url “fileadmin/myimage.png” will not be found,
 because HTML will generate a path like
