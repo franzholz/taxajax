@@ -68,7 +68,7 @@ Routing Enhancer:
 
 .. code:: xml
 
-imports:
+  imports:
     - { resource: "EXT:taxajax/Configuration/Routes/Default.yaml" }
 
 
