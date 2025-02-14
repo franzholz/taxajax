@@ -131,8 +131,7 @@ The development has been finished in October 2014.
 
 To run xajax, you need:
 
-* Apache Web Server or IIS for Windows XP/2003
-Server (other servers may work)
+* Apache Web Server or IIS for Windows XP/2003 Server (other servers may work)
 * PHP 8.0 and later
 
 To install xajax:
