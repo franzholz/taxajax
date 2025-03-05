@@ -722,22 +722,13 @@ class tx_taxajax
      *		< ?php echo $xajaxJSHead; ? >
      * </code>
      *
-     * @param string the relative address of the folder where xajax has been
-     *               installed. For instance, if your PHP file is
-     *               "http://www.myserver.com/myfolder/mypage.php"
-     *               and xajax was installed in
-     *               "http://www.myserver.com/anotherfolder", then $sJsURI
-     *               should be set to "../anotherfolder". Defaults to assuming
-     *               xajax is in the same folder as your PHP file.
-     * @param string the relative folder/file pair of the xajax Javascript
-     *               engine located within the xajax installation folder.
-     *               Defaults to Resources/Public/JavaScript/xajax.js.
      * @return string
      */
-    public function getJavascript($sJsURI = '', $sJsFile = null)
+    public function getJavascript()
     {
+
         $html = $this->getJavascriptConfig();
-        $html .= $this->getJavascriptInclude($sJsURI, $sJsFile);
+        $html .= $this->getJavascriptInclude();
 
         return $html;
     }
@@ -774,47 +765,35 @@ class tx_taxajax
      * along with a check to see if the file loaded after six seconds
      * (typically called internally by xajax from get/printJavascript).
      *
-     * @param string the relative address of the folder where xajax has been
-     *               installed. For instance, if your PHP file is
-     *               "http://www.myserver.com/myfolder/mypage.php"
-     *               and xajax was installed in
-     *               "http://www.myserver.com/anotherfolder", then $sJsURI
-     *               should be set to "../anotherfolder". Defaults to assuming
-     *               xajax is in the same folder as your PHP file.
-     * @param string the relative folder/file pair of the xajax Javascript
-     *               engine located within the xajax installation folder.
-     *               Defaults to Resources/Public/JavaScript/xajax.js.
      * @return string
      */
-    public function getJavascriptInclude($sJsURI = '', $sJsFile = null)
+    public function getJavascriptInclude(): string
     {
+        /*
+        * $sJsFile string the relative folder/file pair of the xajax Javascript
+        *               engine located within the xajax installation folder.
+        *               Defaults to Resources/Public/JavaScript/xajax.js.
+        */
+
         $useDefaultFile = false;
-        if ($sJsURI == null) {
-            $sJsURI =
-                PathUtility::stripPathSitePrefix(
-                    ExtensionManagementUtility::extPath(TAXAJAX_EXT)
-                );
-        }
-        if ($sJsFile == null) {
-            $useDefaultFile = true;
-            $sJsFile = 'Resources/Public/JavaScript/xajax.js';
-        }
+        $relativePath = 'Resources/Public/JavaScript/';
+        $sJsFile = $relativePath . 'xajax.js';
 
-        if ($sJsURI != '' && substr($sJsURI, -1) != '/') {
-            $sJsURI .= '/';
-        }
+        $path = PathUtility::getPublicResourceWebPath('EXT:taxajax/' . $sJsFile);
 
-        if ($useDefaultFile && !file_exists($sJsURI . $sJsFile)) {
-            $sJsFile = 'Resources/Public/JavaScript/xajax_uncompressed.js';
+        if ($useDefaultFile && !file_exists($path)) {
+            $sJsFile = $relativePath . 'xajax_uncompressed.js';
         }
+        $path = PathUtility::getPublicResourceWebPath('EXT:taxajax/' . $sJsFile);
 
-        $html = chr(9) . '<script src="' . $sJsURI . $sJsFile . '"></script>' . chr(13);
+        $html = chr(9) . '<script src="' . $path . '"></script>' . chr(13);
         $html .= chr(9) . '<script>' . chr(13);
+
         $html .=
 'window.setTimeout(
 	function () {
 		if (!xajaxLoaded) {
-			alert(\'Error: The xajax Javascript file could not be included. \nPerhaps the following URL is incorrect?\n' . $sJsURI . $sJsFile . '\');
+			alert(\'Error: The xajax Javascript file could not be included. \nPerhaps the following URL is incorrect?\n' . $path . '\');
 		}
 	},
 	6000
@@ -838,7 +817,8 @@ class tx_taxajax
      */
     public function autoCompressJavascript($sJsFullFilename = null, $bAlways = false): void
     {
-        $sJsFile = 'Resources/Public/JavaScript/xajax.js';
+        $relativePath = 'Resources/Public/JavaScript/';
+        $sJsFile = $relativePath . 'xajax.js';
 
         if ($sJsFullFilename) {
             $realJsFile = $sJsFullFilename;
@@ -891,7 +871,7 @@ class tx_taxajax
      * @access private
      * @return boolean
      */
-    public function _isFunctionCallable($sFunction)
+    public function _isFunctionCallable($sFunction): bool
     {
         if ($this->_isObjectCallback($sFunction)) {
             if (is_object($this->aObjects[$sFunction][0])) {
@@ -931,7 +911,7 @@ class tx_taxajax
      * @access private
      * @return string
      */
-    public function _wrap($sFunction, $sRequestType = XAJAX_POST)
+    public function _wrap($sFunction, $sRequestType = XAJAX_POST): string
     {
         $js = 'function ' . $this->sWrapperPrefix . $sFunction . '(){return xajax.call("' . $sFunction . '", arguments, ' . $sRequestType . ');}' . chr(13);
         return $js;
@@ -947,7 +927,7 @@ class tx_taxajax
      * @access private
      * @return array
      */
-    public function _xmlToArray($rootTag, $sXml)
+    public function _xmlToArray($rootTag, $sXml): array
     {
         $aArray = [];
         $sXml = str_replace('<' . $rootTag . '>', '<' . $rootTag . '>|~|', $sXml);
@@ -977,7 +957,7 @@ class tx_taxajax
      * @access private
      * @return array
      */
-    public function _parseObjXml($rootTag)
+    public function _parseObjXml($rootTag): array
     {
         $aArray = [];
 
@@ -1054,7 +1034,7 @@ class tx_taxajax
      * @access private
      * @return string converted data
      */
-    public function _decodeUTF8Data($sData)
+    public function _decodeUTF8Data($sData): string
     {
         $sValue = $sData;
 
