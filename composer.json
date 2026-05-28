@@ -24,8 +24,8 @@
   ],
   "require": {
     "php": "^8.0",
-    "typo3/cms-core": "^12.0 || ^13.0",
-    "jambagecom/div2007": "^2.0"
+    "typo3/cms-core": "^12.0 || ^13.0 || ^14",
+    "jambagecom/div2007": "^2.2"
   },
   "autoload": {
     "classmap": [
@@ -37,7 +37,11 @@
   },
   "extra": {
     "typo3/cms": {
-      "extension-key": "taxajax"
+      "extension-key": "taxajax",
+      "version": "1.5.1",
+      "Package": {
+          "providesPackages": {}
+      }
     }
   },
   "require-dev": {

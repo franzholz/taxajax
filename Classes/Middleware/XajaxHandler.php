@@ -54,7 +54,7 @@ class XajaxHandler implements MiddlewareInterface
      *
      * @param ServerRequestInterface $request
      * @param RequestHandlerInterface $handler
-     * @return ResponseInterface
+     * @return ResponseInterface | ErrorController
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
@@ -89,7 +89,7 @@ class XajaxHandler implements MiddlewareInterface
         }
 
         $pageId = FrontendUtility::getPageId($request);
-        if ($pageId) {
+        if (is_int($pageId)) {
             $_REQUEST['id'] = $_GET['id'] = $pageId;
         }
 
