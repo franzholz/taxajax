@@ -61,7 +61,7 @@ class XajaxHandler implements MiddlewareInterface
         $eID = $request->getParsedBody()['eID'] ?? $request->getQueryParams()['eID'] ?? null;
         $taxajax = $request->getParsedBody()['taxajax'] ?? $request->getQueryParams()['taxajax'] ?? null;
 
-        // Do not use any more eID for xAjax!
+        // Do not use any more the removed eID for xAjax!
         if ($eID != null || $taxajax === null) {
             return $handler->handle($request);
         }
