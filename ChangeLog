@@ -1,3 +1,7 @@
+2026-10-10 Franz Holzinger  <franz@ttproducts.de>
+    * Do not use the TSFE frontend.controller any more
+    * Handle a page without ajax to initialize the functions
+
 2026-05-27 Franz Holzinger  <franz@ttproducts.de>
     * bugfix for TYPO3 14
 
