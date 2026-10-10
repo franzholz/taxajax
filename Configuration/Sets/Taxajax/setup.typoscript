@@ -1,0 +1,13 @@
+config {
+    # Fixes relative URL paths for Xajax scripts on deep URLs
+    absRefPrefix = /
+}
+
+page {
+    javascriptLibs {
+        xajax {
+            # Activates the Xajax core library inclusion within the TYPO3 PageRenderer
+            active = 1
+        }
+    }
+}

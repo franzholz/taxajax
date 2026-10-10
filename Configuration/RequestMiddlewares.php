@@ -2,19 +2,17 @@
 
 use JambageCom\Taxajax\Middleware\XajaxHandler;
 
-// EXT:taxajax/Configuration/RequestMiddlewares.php
 return [
     'frontend' => [
         'jambagecom/taxajax/preprocessing' => [
             'target' =>  XajaxHandler::class,
             'description' => 'The Ajax calls will be processed and no page will be generated.',
             'after' => [
-                'typo3/cms-frontend/prepare-tsfe-rendering'
+                'typo3/cms-frontend/site-resolver',
             ],
             'before' => [
-                'typo3/cms-frontend/content-length-headers',
+                'typo3/cms-frontend/page-resolver',
             ],
         ],
     ],
 ];
-

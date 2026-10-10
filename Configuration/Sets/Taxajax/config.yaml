@@ -1,0 +1,3 @@
+# typo3conf/ext/taxajax/Configuration/Sets/Taxajax/config.yaml
+name: jambagecom/taxajax
+label: "Taxajax xAjax Framework integration"

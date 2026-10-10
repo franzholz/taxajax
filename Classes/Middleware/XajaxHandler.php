@@ -49,50 +49,26 @@ class XajaxHandler implements MiddlewareInterface
     ) {
     }
 
-    /**
-     * Dispatches the request to the corresponding eID class or eID script
-     *
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface $handler
-     * @return ResponseInterface
-     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $eID = $request->getParsedBody()['eID'] ?? $request->getQueryParams()['eID'] ?? null;
-        $taxajax = $request->getParsedBody()['taxajax'] ?? $request->getQueryParams()['taxajax'] ?? null;
+        $parsedBody = $request->getParsedBody() ?? [];
+        $queryParams = $request->getQueryParams() ?? [];
 
-        // Do not use any more eID for xAjax!
-        if ($eID != null || $taxajax === null) {
+        $eID = $parsedBody['eID'] ?? $queryParams['eID'] ?? null;
+        $taxajax = $parsedBody['taxajax'] ?? $queryParams['taxajax'] ?? null;
+
+        // 1. Route splitting: If it is a normal page load (no active incoming taxajax request),
+        // we step back immediately and let TYPO3 do its native asset collection and rendering.
+        if ($taxajax === null) {
             return $handler->handle($request);
         }
 
-        $controller = $request->getAttribute('frontend.controller') ??
-            $this->getCurrentFrontendController() ??
-            null;
-        if ($controller instanceof TypoScriptFrontendController) {
-            // required to calculate/set absRefPrefix correctly
-            $controller->preparePageContentGeneration($request);
-        }
-        $this->listenerProvider->addListener(
-            GeneratePublicUrlForResourceEvent::class,
-            PublicUrlPrefixer::class,
-            'prefixWithAbsRefPrefix'
-        );
-
-        $site = $request->getAttribute('site');
-        if (!$site instanceof Site) {
-            return GeneralUtility::makeInstance(ErrorController::class)->pageNotFoundAction(
-                $request,
-                'No site configuration found.',
-                ['code' => PageAccessFailureReasons::PAGE_NOT_FOUND]
-            );
+        // 2. Guard Clause: If it is a distinct foreign eID request not meant for us, skip entirely
+        if ($eID !== null) {
+            return $handler->handle($request);
         }
 
-        $pageId = FrontendUtility::getPageId($request);
-        if ($pageId) {
-            $_REQUEST['id'] = $_GET['id'] = $pageId;
-        }
-
+        // --- Beyond this point, we only handle real incoming active AJAX processing ---
         // Remove any output produced until now
         ob_clean();
 
@@ -105,14 +81,29 @@ class XajaxHandler implements MiddlewareInterface
 
         $configuration = $GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][$taxajax];
 
-        // Simple check to make sure that it is not an absolute file (to use the fallback)
+        $site = $request->getAttribute('site');
+        if (!$site instanceof Site) {
+            return GeneralUtility::makeInstance(ErrorController::class)->pageNotFoundAction(
+                $request,
+                'No site configuration found.',
+                ['code' => PageAccessFailureReasons::PAGE_NOT_FOUND]
+            );
+        }
+
+        $pageId = FrontendUtility::getPageId($request);
+        if (is_int($pageId)) {
+            $_REQUEST['id'] = $_GET['id'] = $pageId;
+        }
+
         if (strpos($configuration, '::') !== false || is_callable($configuration)) {
             $container = GeneralUtility::getContainer();
             /** @var Dispatcher $dispatcher */
             $dispatcher = GeneralUtility::makeInstance(Dispatcher::class, $container);
             $request = $request->withAttribute('target', $configuration);
+
             return $dispatcher->dispatch($request) ?? new NullResponse();
         }
+
         trigger_error(
             'taxajax "' . $taxajax . '" is registered with a script to the file "' . GeneralUtility::getFileAbsFileName($configuration) . '". This behaviour has been removed in taxajax v0.6.0'
             . ' Register taxajax with a class::method syntax like "\MyVendor\MyExtension\Controller\MyTaxajaxController::myMethod" instead.',
@@ -120,10 +111,5 @@ class XajaxHandler implements MiddlewareInterface
         );
 
         return new NullResponse();
-    }
-
-    private function getCurrentFrontendController(): ?TypoScriptFrontendController
-    {
-        return $GLOBALS['TSFE'] ?? null;
     }
 }

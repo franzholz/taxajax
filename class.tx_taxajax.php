@@ -1,7 +1,11 @@
 <?php
 
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
 use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 
 /***************************************************************
  *  Copyright notice for implementation of xajax as TYPO3 extension
@@ -363,15 +367,13 @@ class tx_taxajax
      * Javascript. If you want to register a function, pass in the name of that
      * function. If you want to register a static class method, pass in an
      * array like so:
-     * <kbd>["myFunctionName", "myClass", "myMethod"]</kbd>
-     * For an object instance method, use an object variable for the second
-     * array element (and in PHP 4 make sure you put an & before the variable
-     * to pass the object by reference). Note: the function name is what you
+     * <kbd>["myFunctionName", "myMethod"]</kbd>
+     * Note: the function name is what you
      * call via Javascript, so it can be anything as long as it doesn't
      * conflict with any other registered function name.
      *
      * <i>Usage:</i> <kbd>$xajax->registerFunction("myFunction");</kbd>
-     * or: <kbd>$xajax->registerFunction(["myFunctionName", &$myObject, "myMethod"]);</kbd>
+     * or: <kbd>$xajax->registerFunction(["myFunctionName", "myMethod"]);</kbd>
      *
      * @param mixed  contains the function name or an object callback array
      * @param mixed  request type (XAJAX_GET/XAJAX_POST) that should be used
@@ -505,7 +507,9 @@ class tx_taxajax
      * page then this function should be called before any headers or HTML has
      * been sent.
      */
-    public function processRequests(): void
+    public function processRequests(
+        ServerRequestInterface $request,
+    ): void
     {
         $requestMode = -1;
         $sFunctionName = '';
@@ -523,22 +527,18 @@ class tx_taxajax
         }
 
         if ($requestMode == XAJAX_POST) {
-            $sFunctionName = $_POST['xajax'];
-
-            if (!empty($_POST['xajaxargs'])) {
-                $aArgs = $_POST['xajaxargs'];
-            }
+            $postParameters = $request->getParsedBody();
+            $sFunctionName = $postParameters['xajax'] ?? null;
+            $aArgs = $postParameters['xajaxargs'] ?? [];
         } else {
-            header('Expires: Mon, 10 Oct 2029 05:00:00 GMT');
+            header('Expires: Mon, 10 Oct 2035 05:00:00 GMT');
             header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
             header('Cache-Control: no-cache, must-revalidate');
             header('Pragma: no-cache');
 
-            $sFunctionName = $_GET['xajax'];
-
-            if (!empty($_GET['xajaxargs'])) {
-                $aArgs = $_GET['xajaxargs'];
-            }
+            $queryParameters = $request->getQueryParams();
+            $sFunctionName = $queryParameters['xajax'] ?? null;
+            $aArgs = $queryParameters['xajaxargs'] ?? [];
         }
 
         // Use xajax error handler if necessary
@@ -583,13 +583,15 @@ class tx_taxajax
         }
 
         if ($bFoundFunction) {
+            $dArgs = []; // decoded arguments
+
             for ($i = 0; $i < sizeof($aArgs); $i++) {
                 if (stristr($aArgs[$i], '<xjxobj>') != false) {
-                    $aArgs[$i] = $this->_xmlToArray('xjxobj', $aArgs[$i]);
+                    $dArgs[$i] = $this->_xmlToArray('xjxobj', $aArgs[$i]);
                 } elseif (stristr($aArgs[$i], '<xjxquery>') != false) {
-                    $aArgs[$i] = $this->_xmlToArray('xjxquery', $aArgs[$i]);
+                    $dArgs[$i] = $this->_xmlToArray('xjxquery', $aArgs[$i]);
                 } elseif ($this->bDecodeUTF8Input) {
-                    $aArgs[$i] = $this->_decodeUTF8Data($aArgs[$i]);
+                    $dArgs[$i] = $this->_decodeUTF8Data($aArgs[$i]);
                 }
             }
 
@@ -597,7 +599,7 @@ class tx_taxajax
                 $mPreResponse =
                     $this->_callFunction(
                         $this->sPreFunction,
-                        [$sFunctionNameForSpecial, $aArgs]
+                        [$sFunctionNameForSpecial, $dArgs, $request]
                     );
 
                 if (is_array($mPreResponse) && $mPreResponse[0] === false) {
@@ -623,9 +625,11 @@ class tx_taxajax
                     $sResponse = $objResponse->getXML();
                 } else {
                     if ($bFunctionIsCatchAll) {
-                        $aArgs = [$sFunctionNameForSpecial, $aArgs];
+                        $dArgs = [$sFunctionNameForSpecial, $dArgs, $request];
+                    } else {
+                        $dArgs = [$dArgs, $request];
                     }
-                    $sResponse = $this->_callFunction($sFunctionName, $aArgs);
+                    $sResponse = $this->_callFunction($sFunctionName, $dArgs);
                 }
                 if (is_a($sResponse, 'tx_taxajax_response')) {
                     $sResponse = $sResponse->getXML();
@@ -893,12 +897,12 @@ class tx_taxajax
      * @access private
      * @return mixed the output of the called function or method
      */
-    public function _callFunction($sFunction, $aArgs)
+    public function _callFunction($sFunction, $dArgs)
     {
         if ($this->_isObjectCallback($sFunction)) {
-            $mReturn = call_user_func_array($this->aObjects[$sFunction], $aArgs);
+            $mReturn = call_user_func_array($this->aObjects[$sFunction], $dArgs);
         } else {
-            $mReturn = call_user_func_array($sFunction, $aArgs);
+            $mReturn = call_user_func_array($sFunction, $dArgs);
         }
         return $mReturn;
     }
