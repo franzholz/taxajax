@@ -631,6 +631,7 @@ class tx_taxajax
                     }
                     $sResponse = $this->_callFunction($sFunctionName, $dArgs);
                 }
+
                 if (is_a($sResponse, 'tx_taxajax_response')) {
                     $sResponse = $sResponse->getXML();
                 }
@@ -892,17 +893,71 @@ class tx_taxajax
      * Calls the function, class method, or object method with the supplied
      * arguments.
      *
-     * @param string the name of the function
-     * @param array  arguments to pass to the function
+     * @param string|array $sFunction the name of the function
+     * @param array        $dArgs     arguments to pass to the function
+     * @access private
+     * @return mixed the output of the called function or method
+     */
+    /**
+     * Calls the function, class method, or object method with the supplied
+     * arguments.
+     *
+     * @param string|array $sFunction the name of the function
+     * @param array        $dArgs     arguments to pass to the function
      * @access private
      * @return mixed the output of the called function or method
      */
     public function _callFunction($sFunction, $dArgs)
     {
-        if ($this->_isObjectCallback($sFunction)) {
-            $mReturn = call_user_func_array($this->aObjects[$sFunction], $dArgs);
+        $request = null;
+        $dataPayload = [];
+
+        // 1. Extract $request from the very end of the arguments array if present
+        if (is_array($dArgs) && !empty($dArgs)) {
+            $lastArg = end($dArgs);
+            if ($lastArg instanceof ServerRequestInterface) {
+                $request = array_pop($dArgs);
+            }
+        }
+
+        // 2. Safely unwrap the nested xAjax 2.0 array structure completely
+        if (is_array($dArgs) && !empty($dArgs)) {
+            // First look at the outer container
+            $firstLevel = reset($dArgs);
+
+            // If the structure is wrapped twice like [0 => [0 => [view => ...]]]
+            if (is_array($firstLevel) && count($firstLevel) === 1 && isset($firstLevel[0]) && is_array($firstLevel[0])) {
+                $dataPayload = $firstLevel[0];
+            }
+            // Standard single wrapper [0 => [view => ...]]
+            elseif (is_array($firstLevel) && (isset($firstLevel['view']) || isset($firstLevel['tt_products']))) {
+                // We keep it as is, but wait: taxajax shouldn't know keys, so we check for associative array
+                $dataPayload = $firstLevel;
+            }
+            // Generic fallback: if index 0 is an array, that is our actual payload
+            elseif (isset($dArgs[0]) && is_array($dArgs[0])) {
+                $dataPayload = $dArgs[0];
+            } else {
+                $dataPayload = $dArgs;
+            }
+        }
+
+        // 3. Reconstruct final positional arguments for the controller method
+        if ($request instanceof ServerRequestInterface) {
+            $finalArgs = [
+                0 => $request,
+                1 => $dataPayload // Passed exactly as a single associative array
+            ];
         } else {
-            $mReturn = call_user_func_array($sFunction, $dArgs);
+            $finalArgs = [
+                0 => $dataPayload
+            ];
+        }
+
+        if ($this->_isObjectCallback($sFunction)) {
+            $mReturn = call_user_func_array($this->aObjects[$sFunction], $finalArgs);
+        } else {
+            $mReturn = call_user_func_array($sFunction, $finalArgs);
         }
         return $mReturn;
     }
